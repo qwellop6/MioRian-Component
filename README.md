@@ -167,6 +167,7 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 |------|------|--------|--------|------|
 | `fx-density` | string | `normal` | `sparse` / `normal` / `dense` | 花瓣/雪花的疏密程度 |
 | `fx-size` | string | `md` | `sm` / `md` / `lg` | 花瓣/雪花的大小 |
+| `fx-angle` | number | `45` | 任意角度（度） | 飘落角度。0°=垂直下落，45°=左上→右下（默认），-45°=右上→左下，90°=水平右飘 |
 
 ### 入场动效 `anim`
 
