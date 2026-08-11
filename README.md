@@ -100,7 +100,7 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 
 ---
 
-## 1. Block — 万能布局容器
+## 1. Block — 布局容器
 
 **标签** `<miorian-block>` | **类名** `Block` | **文件** `Block.js`
 
