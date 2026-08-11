@@ -5,7 +5,7 @@ class Block extends HTMLElement {
   }
 
   connectedCallback() {
-    /* ── 基础视觉 — 保留原始属性设计 ── */
+    /* ── 基础视觉 ── */
     const bordercolor = this.getAttribute('bordercolor');
     const backcolor   = this.getAttribute('backcolor');
     const Wvh   = this.getAttribute('Wvh')   || '4';
