@@ -17,7 +17,7 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 
 | 组件 | 标签 | 用途 |
 |------|------|------|
-| Block | `<miorian-block>` | 简介卡片，头像 + 标题 + 描述 + 标签 + 链接 |
+| Block | `<miorian-block>` | 万能布局容器，Flex 弹性布局 + 装饰特效 + 图片背景 + 动效 |
 | Button | `<miorian-button>` | 按钮，实色 / 描边 / 幽灵三种变体 |
 | Input | `<miorian-input>` | 输入框，支持文本、密码、邮箱、多行 |
 | Card | `<miorian-card>` | 通用卡片容器，带头尾插槽 |
@@ -55,16 +55,14 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 以 HTML 属性的方式配置组件：
 
 ```html
-<!-- 一个带标题和描述的简介卡片 -->
+<!-- 一个 Flex 行容器，樱花特效 + 弹出动画 -->
 <miorian-block
-  theme="light" layout="row"
-  avatar="https://i.pravatar.cc/150?img=12"
-  title="Mio Rian"
-  subtitle="前端工程师 · 深圳"
-  desc="热爱 Web Components 与创意 UI 开发。"
-  tags="JavaScript,CSS,Design"
-  glow shadowlevel="2"
-></miorian-block>
+  theme="light" direction="row" justify="center" gap="16px" padding="md"
+  bg-effect="sakura" anim="pop" glow shadowlevel="2"
+>
+  <div>左侧内容</div>
+  <div>右侧内容</div>
+</miorian-block>
 
 <!-- 一个渐变主题的按钮 -->
 <miorian-button theme="gradient" variant="solid" rounded="full">
@@ -102,17 +100,51 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 
 ---
 
-## 1. Block — 简介卡片
+## 1. Block — 万能布局容器
 
 **标签** `<miorian-block>` | **类名** `Block` | **文件** `Block.js`
 
-### 尺寸控制
+类似 `<div>` 的万能布局组件。自带 6 套主题、Flex 弹性布局、装饰特效、图片背景和 9 种动效。所有内容通过插槽自由放置。
+
+### 尺寸
 
 | 属性 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| `Wvh` | string | `4` | 宽度分母，卡片宽度 = `120vh / Wvh`，值越小越宽 |
-| `Hvw` | string | `8` | 高度分母，卡片高度 = `120vw / Hvw`，值越小越高 |
-| `Borad` | string | `15` | 圆角半径，单位 px |
+| `width` | string | `100%` | 宽度，任意 CSS 值（`300px`、`50vw`、`auto` …） |
+| `height` | string | `auto` | 高度，任意 CSS 值 |
+| `Borad` | string | `12` | 圆角半径，单位 px |
+
+### 内边距
+
+| 属性 | 类型 | 默认值 | 可选值 | 说明 |
+|------|------|--------|--------|------|
+| `padding` | string | `md` | `none` / `sm` / `md` / `lg` / `xl` | 预设内边距，对应 0 / 10×14 / 18×22 / 28×32 / 40×48（px） |
+
+### Flex 弹性布局
+
+| 属性 | 类型 | 默认值 | 可选值 | 说明 |
+|------|------|--------|--------|------|
+| `direction` | string | `row` | `row` / `col` / `row-reverse` / `col-reverse` | 主轴方向 |
+| `wrap` | boolean | — | 存在即启用 | 允许子元素换行 |
+| `gap` | string | `0` | 任意 CSS 值（`12px`、`1.5rem`、`2vw` …） | 子元素间距 |
+| `justify` | string | `start` | `start` / `center` / `end` / `between` / `around` / `evenly` | 主轴对齐方式 |
+| `align` | string | `stretch` | `start` / `center` / `end` / `stretch` / `baseline` | 交叉轴对齐方式 |
+
+### 微调偏移
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `offset-x` | string | `0` | 水平偏移，支持 px/vh/vw/rem 等（translateX） |
+| `offset-y` | string | `0` | 垂直偏移（translateY） |
+
+### 背景图片
+
+| 属性 | 类型 | 默认值 | 可选值 | 说明 |
+|------|------|--------|--------|------|
+| `bg-image` | string | — | 图片 URL | 背景图 |
+| `bg-size` | string | `cover` | `cover` / `contain` / `auto` 或 CSS 值 | 背景尺寸 |
+| `bg-position` | string | `center` | `center` / `top` / `bottom` / `left` / `right` 或 CSS 值 | 背景位置 |
+| `bg-repeat` | boolean | — | 存在即启用 | 是否平铺（默认不平铺） |
 
 ### 主题覆盖
 
@@ -121,44 +153,74 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 | `bordercolor` | string | — | 直接覆盖边框颜色 |
 | `backcolor` | string | — | 直接覆盖背景颜色 |
 
-### 布局
+### 装饰特效 `bg-effect`
 
-| 属性 | 类型 | 默认值 | 可选值 | 说明 |
-|------|------|--------|--------|------|
-| `layout` | string | `row` | `row` / `col` / `overlay` | row=横排（左头像右内容） / col=竖排居上 / overlay=头像浮于顶部边缘 |
+| 值 | 效果 |
+|----|------|
+| `none` | 无特效（默认） |
+| `sakura` | 樱花飘落——粉色花瓣从顶部飘落旋转 |
+| `wave` | 波浪——底部 SVG 波浪左右流动 |
+| `snow` | 雪花——白色雪点缓缓飘落 |
+| `stars` | 星空——散布的星点闪烁呼吸 |
+| `gradient-flow` | 流光渐变——accent → 紫色 → 粉色 渐变流动 |
 
-### 内容字段
+### 入场动效 `anim`
 
-| 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `avatar` | string | — | 头像图片 URL |
-| `avatarshape` | string | `circle` | 头像形状：`circle`（圆形）/ `squircle`（超椭圆）/ `square`（方形圆角） |
-| `title` | string | — | 标题，粗体大号 |
-| `subtitle` | string | — | 副标题，小号灰色 |
-| `desc` | string | — | 描述段落 |
-| `tags` | string | — | 标签列表，半角逗号 `,` 或全角逗号 `，` 分隔 |
-| `links` | string | — | 链接列表，竖线 `\|` 分隔，每项格式 `icon,label,href`（逗号分隔三部分） |
+| 值 | 效果 |
+|----|------|
+| `none` | 无动画 |
+| `fade-in` | 淡入 |
+| `slide-up` | 从下方滑入 |
+| `slide-down` | 从上方滑入 |
+| `slide-left` | 从右侧滑入 |
+| `slide-right` | 从左侧滑入 |
+| `pop` | 弹性弹出 |
+| `bounce` | 弹跳 |
+| `shake` | 左右抖动 |
+| `pulse` | 呼吸脉冲（循环） |
+| `spin` | 旋转（循环） |
 
-### 视觉效果
+### 悬停效果 `hover`
 
-| 属性 | 类型 | 默认值 | 可选值 | 说明 |
-|------|------|--------|--------|------|
-| `anim` | string | `none` | `none` / `fade` / `slide` / `pop` | 入场动画 |
-| `shadowlevel` | string | `1` | `0` / `1` / `2` / `3` | 阴影层级，0 为无，3 最深 |
+| 值 | 说明 |
+|----|------|
+| `none` | 无效果 |
+| `lift` | 上浮 4px |
+| `glow-pulse` | 发光脉冲增强 |
 
 ### 示例
 
 ```html
+<!-- 基础：Flex 行容器，居中，带间距 -->
+<miorian-block theme="light" direction="row" justify="center" align="center" gap="16px" padding="md">
+  <div>子元素 1</div>
+  <div>子元素 2</div>
+</miorian-block>
+
+<!-- 樱花背景 + 弹性弹出动画 -->
 <miorian-block
-  theme="light" layout="row" accent="#6366f1"
-  avatar="https://i.pravatar.cc/150?img=12"
-  avatarshape="circle"
-  title="Mio Rian"
-  subtitle="Frontend Engineer · Shenzhen"
-  desc="Building web components & creative UI."
-  tags="WebComponents,CSS,Design"
-  glow anim="slide" shadowlevel="2"
+  theme="light" direction="col" padding="lg"
+  bg-effect="sakura" anim="pop" glow
+>
+  <h2>🌸 樱花下的内容</h2>
+</miorian-block>
+
+<!-- 图片背景 + 偏移微调 -->
+<miorian-block
+  width="400px" height="260px"
+  bg-image="https://picsum.photos/800/520"
+  bg-size="cover" bg-position="center"
+  offset-x="20px" offset-y="10px"
+  Borad="16" glow shadowlevel="2"
 ></miorian-block>
+
+<!-- 波浪底栏 + 暗色主题 -->
+<miorian-block
+  theme="dark" direction="col" padding="xl"
+  bg-effect="wave" hover="lift"
+>
+  <p>深色卡片，悬停上浮</p>
+</miorian-block>
 ```
 
 ---
@@ -426,4 +488,3 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 - 字体统一使用 `system-ui, -apple-system, 'Segoe UI', sans-serif`。
 - 过渡动画曲线统一 `cubic-bezier(.22, 1, .36, 1)`。
 - 布尔属性按 HTML 惯例：属性存在即为 `true`，不存在即为 `false`（不关心属性值内容）。
-
