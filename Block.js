@@ -91,7 +91,7 @@ const C = `
 :host([data-theme="gradient"]){--t-bg:linear-gradient(135deg,#667eea,#764ba2);--t-fg:#fff;--t-sub:rgba(255,255,255,.82);--t-bd:transparent;--t-tag-bg:rgba(255,255,255,.16);--t-tag-fg:#fff}
 
 /* ─ 框架 ─ */
-.frame{position:relative;box-sizing:border-box;width:calc(120vh/var(--Wvh,4));height:calc(120vw/var(--Hvw,8));border-radius:var(--Borad,15px);background:var(--ov-bg,var(--t-bg));border:2px solid var(--ov-bd,var(--t-bd));color:var(--t-fg);overflow:hidden;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease;box-shadow:0 calc(2px*var(--sl)) calc(9px*var(--sl)) rgba(0,0,0,calc(.07*var(--sl))),0 calc(1px*var(--sl)) calc(3px*var(--sl)) rgba(0,0,0,calc(.04*var(--sl)))}
+.frame{position:relative;box-sizing:border-box;width:calc(100vw/var(--Wvh,4));height:calc(100vh/var(--Hvw,8));border-radius:var(--Borad,15px);background:var(--ov-bg,var(--t-bg));border:2px solid var(--ov-bd,var(--t-bd));color:var(--t-fg);overflow:hidden;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease;box-shadow:0 calc(2px*var(--sl)) calc(9px*var(--sl)) rgba(0,0,0,calc(.07*var(--sl))),0 calc(1px*var(--sl)) calc(3px*var(--sl)) rgba(0,0,0,calc(.04*var(--sl)))}
 :host([glass]) .frame{backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5)}
 :host([glow]) .frame{box-shadow:0 0 26px -4px var(--accent),0 calc(2px*var(--sl)) calc(12px*var(--sl)) rgba(0,0,0,.16)}
 :host([glow]) .frame:hover{box-shadow:0 0 42px 0 var(--accent),0 calc(4px*var(--sl)) calc(20px*var(--sl)) rgba(0,0,0,.22)}
