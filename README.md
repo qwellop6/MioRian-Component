@@ -2,7 +2,7 @@
 
 ## 介绍
 
-MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设计的 UI 组件：布局、按钮、输入框、卡片、弹窗和加载指示器。所有组件零依赖、无框架锁，直接以 HTML 自定义元素的形式运行，引入即用。
+MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设计的 UI 组件：简介卡片、按钮、输入框、卡片、弹窗和加载指示器。所有组件零依赖、无框架锁，直接以 HTML 自定义元素的形式运行，引入即用。
 
 设计上追求两点：**高度可定制**，和**主题一致性**。每个组件都通过属性驱动外观，无需写一行 CSS 即可切换风格；同时 6 个组件共享同一套主题系统（6 套色板 + 强调色），放在同一页面里不会打架。
 
@@ -101,7 +101,7 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 
 ---
 
-## 1. Block — 布局容器
+## 1. Block — 万能布局容器
 
 **标签** `<miorian-block>` | **类名** `Block` | **文件** `Block.js`
 
@@ -168,7 +168,7 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 |------|------|--------|--------|------|
 | `fx-density` | string | `normal` | `sparse` / `normal` / `dense` | 花瓣/雪花的疏密程度 |
 | `fx-size` | string | `md` | `sm` / `md` / `lg` | 花瓣/雪花的大小 |
-| `fx-angle` | number | `45` | 任意角度（度） | 飘落角度。0°=垂直下落，45°=左上→右下（默认），-45°=右上→左下 |
+| `fx-angle` | number | `45` | 任意角度（度） | 飘落角度。0°=垂直下落，45°=左上→右下（默认），-45°=右上→左下，90°=水平右飘 |
 
 ### 入场动效 `anim`
 
@@ -341,13 +341,17 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 
 | 属性 | 类型 | 默认值 | 可选值 | 说明 |
 |------|------|--------|--------|------|
+| `width` | string | `100%` | 任意 CSS 值（`300px`、`50vw`、`auto` …） | 卡片宽度 |
+| `height` | string | `auto` | 任意 CSS 值 | 卡片高度 |
+| `Borad` | string | `14` | 圆角半径，单位 px | 卡片圆角 |
 | `padding` | string | `md` | `none` / `sm` / `md` / `lg` | 内容区内边距 |
 | `hover` | string | `none` | `none` / `lift` / `border` | 悬停效果：无 / 上浮 / 边框高亮 |
 | `shadowlevel` | string | `1` | `0` / `1` / `2` / `3` | 阴影层级 |
-| `glow` | boolean | — | 发光效果 |
-| `glass` | boolean | — | 毛玻璃效果 |
-| `header` | string | — | 头部标题文字 |
-| `footer` | string | — | 底部文字 |
+| `glow` | boolean | — | — | 发光效果 |
+| `glass` | boolean | — | — | 毛玻璃效果 |
+| `transparent` | boolean | — | — | 存在即背景透明（保留边框、阴影、文字色） |
+| `header` | string | — | — | 头部标题文字 |
+| `footer` | string | — | — | 底部文字 |
 
 ### 插槽
 
@@ -379,6 +383,14 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
   <div slot="header">⚡ 自定义头部</div>
   <p>毛玻璃 + 发光效果</p>
   <div slot="footer">底部内容</div>
+</miorian-card>
+
+<!-- 自定义尺寸 + 透明背景 -->
+<miorian-card
+  width="400px" height="200px" Borad="20"
+  transparent hover="border" accent="#f59e0b"
+>
+  <p>固定尺寸、透明底、悬停边框高亮</p>
 </miorian-card>
 ```
 
