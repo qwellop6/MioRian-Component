@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>miorian UI Kit Demo</title>
+<style>
+  *{margin:0;box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,sans-serif;background:#eef0f5;padding-bottom:60px}
+  .sec{padding:40px 28px}
+  .sec.d1{background:linear-gradient(135deg,#0a0a1a,#1a0a2e)}
+  .sec.d2{background:linear-gradient(135deg,#0f172a,#1e1b4b)}
+  h2{width:100%;text-align:center;font-size:12px;color:#999;letter-spacing:3px;margin-bottom:16px}
+  .sec.d1 h2,.sec.d2 h2{color:rgba(255,255,255,.3)}
+  .row{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:center}
+  .col{display:flex;flex-direction:column;gap:20px;align-items:center}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:900px;margin:0 auto}
+  .muted{font-size:10px;color:#aaa;text-align:center;margin-top:6px}
+  .sec.d1 .muted,.sec.d2 .muted{color:rgba(255,255,255,.25)}
+</style>
+</head>
+<body>
+
+<!-- ========== BUTTONS ========== -->
+<div class="sec">
+  <h2>Button</h2>
+  <div class="row">
+    <miorian-button theme="light" accent="#6366f1">Solid Default</miorian-button>
+    <miorian-button theme="light" accent="#6366f1" variant="outline">Outline</miorian-button>
+    <miorian-button theme="light" accent="#6366f1" variant="ghost">Ghost</miorian-button>
+    <miorian-button theme="light" accent="#e24b4a" icon="&#9889;" disabled>Disabled</miorian-button>
+  </div>
+  <div class="muted">variant: solid · outline · ghost · disabled</div>
+  <div class="row" style="margin-top:16px">
+    <miorian-button theme="light" accent="#6366f1" size="sm">Small</miorian-button>
+    <miorian-button theme="light" accent="#6366f1" size="md">Medium</miorian-button>
+    <miorian-button theme="light" accent="#6366f1" size="lg">Large</miorian-button>
+  </div>
+  <div class="row" style="margin-top:16px">
+    <miorian-button theme="light" accent="#6366f1" rounded="none">Square</miorian-button>
+    <miorian-button theme="light" accent="#6366f1" rounded="md">Rounded</miorian-button>
+    <miorian-button theme="light" accent="#6366f1" rounded="full">Capsule</miorian-button>
+  </div>
+</div>
+
+<div class="sec d1">
+  <h2>Button · Dark / Neon / Glass</h2>
+  <div class="row">
+    <miorian-button theme="dark" accent="#a78bfa" glow>Glow Dark</miorian-button>
+    <miorian-button theme="neon" accent="#00e5ff" glow>Neon Glow</miorian-button>
+    <miorian-button theme="glass" accent="#fff" variant="outline">Glass Btn</miorian-button>
+    <miorian-button theme="gradient" accent="#ffd700" rounded="full">Gradient</miorian-button>
+  </div>
+  <div class="row" style="margin-top:16px">
+    <miorian-button theme="dark" accent="#6366f1" icon="&#9998;" rounded="full">With Icon</miorian-button>
+    <miorian-button theme="dark" accent="#6366f1" loading rounded="full">Loading</miorian-button>
+    <miorian-button theme="light" block style="max-width:360px">Block Width</miorian-button>
+  </div>
+</div>
+
+<!-- ========== INPUTS ========== -->
+<div class="sec">
+  <h2>Input</h2>
+  <div class="grid">
+    <div>
+      <miorian-input theme="light" label="Username" placeholder="Enter your name" icon="&#128100;"></miorian-input>
+      <div class="muted">label + icon</div>
+    </div>
+    <div>
+      <miorian-input theme="light" type="email" label="Email" placeholder="you@example.com"></miorian-input>
+      <div class="muted">type="email"</div>
+    </div>
+    <div>
+      <miorian-input theme="light" type="password" label="Password" placeholder="********" invalid message="Password too short"></miorian-input>
+      <div class="muted">invalid state + message</div>
+    </div>
+    <div>
+      <miorian-input theme="light" label="Bio" type="textarea" placeholder="Tell us about yourself..."></miorian-input>
+      <div class="muted">type="textarea"</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec d1">
+  <h2>Input · Dark / Neon / Glass</h2>
+  <div class="grid">
+    <miorian-input theme="dark" label="API Key" placeholder="sk-..." type="password"></miorian-input>
+    <miorian-input theme="neon" label="Handle" placeholder="@username" icon="&#64;"></miorian-input>
+    <miorian-input theme="glass" label="Search" placeholder="Type something..." icon="&#128269;"></miorian-input>
+    <miorian-input theme="paper" label="Note" placeholder="Jot something down" type="textarea"></miorian-input>
+  </div>
+</div>
+
+<!-- ========== CARDS ========== -->
+<div class="sec">
+  <h2>Card</h2>
+  <div class="grid">
+    <miorian-card theme="light" padding="md" hover="lift" shadowlevel="2">
+      <p style="font-weight:600;font-size:15px">Project Alpha</p>
+      <p style="font-size:13px;color:#666;margin-top:6px">A clean card with lift effect on hover. Cards use slot for full content control.</p>
+    </miorian-card>
+    <miorian-card theme="light" padding="md" hover="border" shadowlevel="1" header="With Header">
+      <p style="font-size:13px;color:#666">Card with a header slot. The border highlights on hover.</p>
+    </miorian-card>
+    <miorian-card theme="light" padding="md" hover="none" shadowlevel="0">
+      <p style="font-weight:600;font-size:15px">Flat Card</p>
+      <p style="font-size:13px;color:#666;margin-top:6px">No shadow, no hover. Just a clean boundary.</p>
+    </miorian-card>
+  </div>
+</div>
+
+<div class="sec d2">
+  <h2>Card · Neon / Glass / Gradient</h2>
+  <div class="grid">
+    <miorian-card theme="neon" padding="md" glow shadowlevel="2" header="Neon Card">
+      <p style="font-size:13px;opacity:.8">Glowing border with accent color.</p>
+    </miorian-card>
+    <miorian-card theme="glass" padding="md" glass hover="lift" header="Glass Card">
+      <p style="font-size:13px;opacity:.8">Frosted glass effect with backdrop blur.</p>
+    </miorian-card>
+    <miorian-card theme="gradient" padding="md" hover="lift" shadowlevel="2" header="Gradient Card">
+      <p style="font-size:13px;opacity:.85">Vibrant gradient background.</p>
+    </miorian-card>
+  </div>
+</div>
+
+<!-- ========== BLOCK ========== -->
+<div class="sec">
+  <h2>Block · Profile</h2>
+  <div class="row">
+    <miorian-block
+      theme="light" layout="row" accent="#6366f1" shadowlevel="2" anim="slide"
+      avatar="https://i.pravatar.cc/150?img=12" avatarshape="circle"
+      title="Mio Rian"
+      subtitle="Frontend Engineer · Shenzhen"
+      desc="Building web components & creative UI."
+      tags="WebComponents,CSS,Design,TypeScript"
+    ></miorian-block>
+    <miorian-block
+      theme="paper" layout="col" accent="#b45309" Wvh="6" Hvw="10"
+      avatar="https://i.pravatar.cc/150?img=5" avatarshape="squircle"
+      title="Aria Chen"
+      subtitle="UX Designer"
+      tags="Figma,Prototyping,Illustration"
+    ></miorian-block>
+  </div>
+</div>
+
+<div class="sec d1">
+  <h2>Block · Neon / Gradient / Overlay</h2>
+  <div class="row">
+    <miorian-block
+      theme="neon" layout="overlay" accent="#00e5ff" glow anim="pop"
+      avatar="https://i.pravatar.cc/150?img=3" avatarshape="circle"
+      title="Neo"
+      subtitle="Full-Stack · Night Owl"
+      desc="Systems that glow in the dark."
+      tags="Rust,Go,Kubernetes"
+    ></miorian-block>
+    <miorian-block
+      theme="gradient" layout="col" accent="#ffd700" shadowlevel="2"
+      avatar="https://i.pravatar.cc/150?img=33" avatarshape="circle"
+      title="Sol"
+      subtitle="Creative Coder"
+      tags="WebGL,Shaders,Three.js"
+    ></miorian-block>
+  </div>
+</div>
+
+<!-- ========== SPINNERS ========== -->
+<div class="sec">
+  <h2>Spinner</h2>
+  <div class="row" style="gap:32px">
+    <div class="col"><miorian-spinner variant="ring" accent="#6366f1"></miorian-spinner><div class="muted">ring</div></div>
+    <div class="col"><miorian-spinner variant="dots" accent="#6366f1"></miorian-spinner><div class="muted">dots</div></div>
+    <div class="col"><miorian-spinner variant="pulse" accent="#6366f1"></miorian-spinner><div class="muted">pulse</div></div>
+    <div class="col"><miorian-spinner variant="bars" accent="#6366f1"></miorian-spinner><div class="muted">bars</div></div>
+  </div>
+  <div class="muted" style="margin-top:16px">variant: ring · dots · pulse · bars</div>
+  <div class="row" style="margin-top:16px;gap:24px">
+    <miorian-spinner variant="ring" size="sm" accent="#6366f1"></miorian-spinner>
+    <miorian-spinner variant="ring" size="md" accent="#6366f1"></miorian-spinner>
+    <miorian-spinner variant="ring" size="lg" accent="#6366f1"></miorian-spinner>
+    <miorian-spinner variant="ring" size="xl" accent="#6366f1"></miorian-spinner>
+  </div>
+  <div class="muted" style="margin-top:8px">size: sm · md · lg · xl</div>
+</div>
+
+<div class="sec d2">
+  <h2>Spinner · Colors</h2>
+  <div class="row" style="gap:32px">
+    <div class="col"><miorian-spinner variant="dots" size="lg" accent="#00e5ff"></miorian-spinner><div class="muted">cyan</div></div>
+    <div class="col"><miorian-spinner variant="ring" size="lg" accent="#a78bfa"></miorian-spinner><div class="muted">purple</div></div>
+    <div class="col"><miorian-spinner variant="pulse" size="lg" accent="#f59e0b"></miorian-spinner><div class="muted">amber</div></div>
+    <div class="col"><miorian-spinner variant="bars" size="lg" accent="#e24b4a"></miorian-spinner><div class="muted">red</div></div>
+  </div>
+</div>
+
+<!-- ========== MODAL ========== -->
+<div class="sec">
+  <h2>Modal</h2>
+  <div class="row" style="gap:16px">
+    <miorian-button theme="light" accent="#6366f1" id="btn-modal-light">Open Light Modal</miorian-button>
+    <miorian-button theme="dark" accent="#a78bfa" id="btn-modal-dark">Open Dark Modal</miorian-button>
+  </div>
+
+  <miorian-modal id="modal-light" theme="light" title="Confirm Action" size="sm">
+    <p style="font-size:14px;color:var(--md-fg,inherit);line-height:1.6">
+      Are you sure you want to proceed? This action cannot be undone.
+    </p>
+    <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end">
+      <miorian-button variant="ghost" accent="#666" onclick="document.getElementById('modal-light').close()">Cancel</miorian-button>
+      <miorian-button accent="#6366f1" onclick="document.getElementById('modal-light').close()">Confirm</miorian-button>
+    </div>
+  </miorian-modal>
+
+  <miorian-modal id="modal-dark" theme="dark" title="Settings" size="md">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <miorian-input theme="dark" label="Display Name" placeholder="Your name"></miorian-input>
+      <miorian-input theme="dark" label="Email" type="email" placeholder="you@ex.com"></miorian-input>
+      <miorian-input theme="dark" label="Bio" type="textarea" placeholder="About you..."></miorian-input>
+      <div style="display:flex;gap:10px;margin-top:6px;justify-content:flex-end">
+        <miorian-button variant="ghost" accent="#888" onclick="document.getElementById('modal-dark').close()">Cancel</miorian-button>
+        <miorian-button accent="#a78bfa" onclick="document.getElementById('modal-dark').close()">Save</miorian-button>
+      </div>
+    </div>
+  </miorian-modal>
+</div>
+
+<script src="Block.js"></script>
+<script src="Button.js"></script>
+<script src="Input.js"></script>
+<script src="Card.js"></script>
+<script src="Modal.js"></script>
+<script src="Spinner.js"></script>
+<script>
+  document.getElementById('btn-modal-light').addEventListener('click', () => {
+    document.getElementById('modal-light').open();
+  });
+  document.getElementById('btn-modal-dark').addEventListener('click', () => {
+    document.getElementById('modal-dark').open();
+  });
+</script>
+</body>
+</html>
