@@ -158,11 +158,15 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 | 值 | 效果 |
 |----|------|
 | `none` | 无特效（默认） |
-| `sakura` | 樱花飘落——粉色花瓣从顶部飘落旋转 |
-| `wave` | 波浪——底部 SVG 波浪左右流动 |
-| `snow` | 雪花——白色雪点缓缓飘落 |
-| `stars` | 星空——散布的星点闪烁呼吸 |
-| `gradient-flow` | 流光渐变——accent → 紫色 → 粉色 渐变流动 |
+| `sakura` | 粉色樱花花瓣从上往下飘落 |
+| `snow` | 白色雪点从上往下飘落 |
+
+### 特效参数
+
+| 属性 | 类型 | 默认值 | 可选值 | 说明 |
+|------|------|--------|--------|------|
+| `fx-density` | string | `normal` | `sparse` / `normal` / `dense` | 花瓣/雪花的疏密程度 |
+| `fx-size` | string | `md` | `sm` / `md` / `lg` | 花瓣/雪花的大小 |
 
 ### 入场动效 `anim`
 
@@ -214,12 +218,12 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
   Borad="16" glow shadowlevel="2"
 ></miorian-block>
 
-<!-- 波浪底栏 + 暗色主题 -->
+<!-- 暗色雪花特效 -->
 <miorian-block
   theme="dark" direction="col" padding="xl"
-  bg-effect="wave" hover="lift"
+  bg-effect="snow" fx-density="dense" fx-size="lg" hover="lift"
 >
-  <p>深色卡片，悬停上浮</p>
+  <p>深色底雪花飘落，密且大，悬停上浮</p>
 </miorian-block>
 ```
 
