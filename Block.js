@@ -1,3 +1,66 @@
+/* ═══════════════════ 特效生成器 ═══════════════════ */
+
+/* 伪随机发生器，保证同参数生成稳定 */
+function fxRandom(seed) {
+  let s = seed;
+  return () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
+}
+
+/* 樱花背景 */
+function buildSakuraBg(density, size) {
+  const counts = { sparse: 14, normal: 28, dense: 48 };
+  const sizes  = {
+    sm: [[4,5],[5,6],[3,4]],
+    md: [[6,8],[4,6],[7,9]],
+    lg: [[10,13],[8,10],[12,15]]
+  };
+  const colors = ['#ffb7c5','#ff9eaf','#ffcfd8','#ffaabb','#fec7d7'];
+  const n = counts[density] || 28;
+  const sz = sizes[size] || sizes.md;
+  const rng = fxRandom(n * 137 + (size === 'sm' ? 1 : size === 'lg' ? 3 : 2));
+  const parts = [];
+
+  for (let half = 0; half < 2; half++) {
+    for (let i = 0; i < n; i++) {
+      const x = (rng() * 94 + 3).toFixed(1);
+      const yOff = half * 50 + (rng() * 46 + 2);
+      const pair = sz[Math.floor(rng() * sz.length)];
+      const sx = (pair[0] + rng() * 2).toFixed(1);
+      const sy = (pair[1] + rng() * 2).toFixed(1);
+      const c = colors[Math.floor(rng() * colors.length)];
+      parts.push(`radial-gradient(ellipse ${sx}px ${sy}px at ${x}% ${yOff.toFixed(1)}%, ${c} 50%,transparent 50%)`);
+    }
+  }
+  return parts.join(',');
+}
+
+/* 雪花背景 */
+function buildSnowBg(density, size) {
+  const counts = { sparse: 12, normal: 24, dense: 42 };
+  const sizes  = {
+    sm: [2,2.5,1.5],
+    md: [4,5,3],
+    lg: [6,7,5]
+  };
+  const n = counts[density] || 24;
+  const sz = sizes[size] || sizes.md;
+  const rng = fxRandom(n * 251 + (size === 'sm' ? 7 : size === 'lg' ? 13 : 11));
+  const parts = [];
+
+  for (let half = 0; half < 2; half++) {
+    for (let i = 0; i < n; i++) {
+      const x = (rng() * 94 + 3).toFixed(1);
+      const yOff = half * 50 + (rng() * 46 + 2);
+      const r = (sz[0] + (sz[1] - sz[0]) * rng()).toFixed(1);
+      const a = (0.6 + rng() * 0.4).toFixed(1);
+      parts.push(`radial-gradient(${r}px ${r}px at ${x}% ${yOff.toFixed(1)}%, rgba(255,255,255,${a}) 50%,transparent 50%)`);
+    }
+  }
+  return parts.join(',');
+}
+
+/* ═══════════════════ 组件 ═══════════════════ */
+
 class Block extends HTMLElement {
   constructor() {
     super();
@@ -31,6 +94,7 @@ class Block extends HTMLElement {
     /* ── 视觉 ── */
     const glow        = this.hasAttribute('glow');
     const glass       = this.hasAttribute('glass');
+    const glassBlur   = this.getAttribute('glass-blur')   || '8px'; // 毛玻璃模糊程度
     const shadowL     = this.getAttribute('shadowlevel') || '1';
     const bordercolor = this.getAttribute('bordercolor');
     const backcolor   = this.getAttribute('backcolor');
@@ -43,6 +107,11 @@ class Block extends HTMLElement {
 
     /* ── 装饰特效 ── */
     const bgEffect = this.getAttribute('bg-effect') || 'none';
+
+    /* ── 特效参数 ── */
+    const fxDensity = this.getAttribute('fx-density') || 'normal'; // sparse | normal | dense
+    const fxSize    = this.getAttribute('fx-size')    || 'md';     // sm | md | lg
+    const fxAngle   = parseFloat(this.getAttribute('fx-angle')) || 45; // 飘落角度（度），左上→右下为正
 
     /* ── 动效 ── */
     const anim  = this.getAttribute('anim')  || 'none';
@@ -64,13 +133,30 @@ class Block extends HTMLElement {
     s.setProperty('--bg-sz',  bgSize);
     s.setProperty('--bg-pos', bgPosition);
     s.setProperty('--bg-rp',  bgRepeat ? 'repeat' : 'no-repeat');
+    if (glass) s.setProperty('--glass-blur', glassBlur);
     this.setAttribute('data-theme', theme);
 
+    /* ── 特效背景图片生成 ── */
+    if (bgEffect === 'sakura') {
+      s.setProperty('--fx-sakura-bg', buildSakuraBg(fxDensity, fxSize));
+    }
+    if (bgEffect === 'snow') {
+      s.setProperty('--fx-snow-bg', buildSnowBg(fxDensity, fxSize));
+    }
+
+    /* ── 飘落角度：左上→右下为正角，dx = -tan(θ) × 50% ── */
+    if (bgEffect === 'sakura' || bgEffect === 'snow') {
+      const rad = fxAngle * Math.PI / 180;
+      const dx  = Math.round(Math.tan(rad) * -50);
+      s.setProperty('--fx-dx', dx + '%');
+    }
+
     /* ── 构建 ── */
-    const hasEffect  = bgEffect !== 'none';
-    const animClass  = anim  !== 'none' ? `anim anim-${anim}` : '';
-    const glassClass = glass ? 'has-glass' : '';
-    const glowClass  = glow  ? 'has-glow'  : '';
+    const animClass   = anim  !== 'none' ? `anim anim-${anim}` : '';
+    const glassClass  = glass ? 'has-glass' : '';
+    const glowClass   = glow  ? 'has-glow'  : '';
+    const glassLayer  = glass ? '<div class="glass-overlay"></div>' : '';
+    const slotOpen    = glass ? '<div class="slot-wrap"><slot></slot></div>' : '<slot></slot>';
 
     this._s.innerHTML = `<style>${C}</style>
       <div class="frame
@@ -81,20 +167,11 @@ class Block extends HTMLElement {
         pd-${padding}
         hv-${hover}
         eff-${bgEffect}
-        ${hasEffect ? 'has-effect' : ''}
         ${glassClass} ${glowClass} ${animClass}
       ">
-        <slot></slot>
+        ${glassLayer}
+        ${slotOpen}
       </div>`;
-
-    /* bg-effect 需要独立 layer，给 has-effect 的 frame 内部注入特效伪元素 */
-    if (hasEffect && this._s) {
-      const frame = this._s.querySelector('.frame');
-      if (frame) {
-        // 确保 overflow:hidden 在 frame 上（clip 特效不溢出）
-        frame.style.overflow = 'hidden';
-      }
-    }
   }
 }
 
@@ -141,12 +218,21 @@ const C = `
     0 calc(1px*var(--sl)) calc(3px*var(--sl)) rgba(0,0,0,calc(.04*var(--sl)));
 }
 
-/* ─ Glass / Glow ─ */
-.has-glass{
-  backdrop-filter:blur(16px) saturate(1.5);
-  -webkit-backdrop-filter:blur(16px) saturate(1.5);
+/* ─ Glass 毛玻璃覆盖层（在图上方、内容下方）─ */
+.glass-overlay{
+  position:absolute;inset:0;
+  backdrop-filter:blur(var(--glass-blur,8px));
+  -webkit-backdrop-filter:blur(var(--glass-blur,8px));
+  border-radius:inherit;
+  z-index:1;pointer-events:none;
 }
-.has-glow{
+.slot-wrap{
+  position:relative;z-index:2;width:100%;
+  display:flex;flex-direction:inherit;
+  gap:inherit;
+}
+
+/* ─ Glow ─ */
   box-shadow:0 0 26px -4px var(--accent),
              0 calc(2px*var(--sl)) calc(12px*var(--sl)) rgba(0,0,0,.16);
 }
@@ -211,97 +297,27 @@ const C = `
 .anim-spin       {animation:mSpin      3s linear infinite}
 
 /* ═══════════════════ 装饰特效 ═══════════════════ */
+/* sakura 和 snow 需 overflow:hidden 裁剪圆角边缘 */
+.frame.eff-sakura,
+.frame.eff-snow{overflow:hidden}
 
-/* ── 樱花 ── */
+/* ── 樱花：飘落 ── */
 .eff-sakura::before{
-  content:'';position:absolute;top:-30px;left:5%;
-  width:10px;height:10px;
-  border-radius:50% 0 50% 50%;
-  background:#ffb7c5;
-  box-shadow:
-    30px 10px 0 #ffcfd8,   80px -5px 0 #ff9eaf,
-    130px 20px 0 #ffb7c5,  190px 5px 0 #ffcfd8,
-    250px 15px 0 #ff9eaf,  320px 0 0 #ffb7c5,
-    50px 60px 0 #ffcfd8,   140px 50px 0 #ff9eaf,
-    210px 70px 0 #ffb7c5,  280px 55px 0 #ffcfd8,
-    360px 45px 0 #ff9eaf,  70px 120px 0 #ffb7c5,
-    160px 110px 0 #ffcfd8, 240px 130px 0 #ff9eaf;
-  animation:sakuraFall 14s linear infinite;
-  pointer-events:none;z-index:1;opacity:.8;
+  content:'';position:absolute;top:0;left:0;width:100%;height:200%;
+  background-image:var(--fx-sakura-bg,none);
+  animation:sakuraFall 10s linear infinite;
+  pointer-events:none;z-index:1;
 }
-@keyframes sakuraFall{
-  0%  {transform:translateY(-60px) rotate(0deg);opacity:0}
-  3%  {opacity:.8}
-  95% {opacity:.8}
-  100%{transform:translateY(calc(100% + 100px)) rotate(420deg);opacity:0}
-}
+@keyframes sakuraFall{0%{transform:translate(var(--fx-dx,-50%),-50%)}100%{transform:translate(0,0)}}
 
-/* ── 波浪 ── */
-.eff-wave::after{
-  content:'';position:absolute;bottom:-2px;left:0;right:0;height:48px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0,60 C150,120 450,0 600,60 C750,120 1050,0 1200,60 L1200,120 L0,120 Z' fill='%23ffffff33'/%3E%3C/svg%3E") repeat-x;
-  background-size:600px 48px;
-  animation:waveDrift 6s linear infinite;
-  pointer-events:none;z-index:1;opacity:.7;
-}
-@keyframes waveDrift{0%{background-position-x:0}100%{background-position-x:600px}}
-
-/* ── 雪花 ── */
+/* ── 飘雪：飘落 ── */
 .eff-snow::before{
-  content:'';position:absolute;top:-30px;left:10%;
-  width:6px;height:6px;border-radius:50%;background:#fff;
-  box-shadow:
-    40px 15px 0 #fff,   90px 0 0 rgba(255,255,255,.8),
-    150px 25px 0 #fff,  210px 10px 0 rgba(255,255,255,.6),
-    280px 5px 0 #fff,   340px 30px 0 rgba(255,255,255,.7),
-    25px 55px 0 #fff,   110px 60px 0 rgba(255,255,255,.8),
-    180px 45px 0 #fff,  260px 75px 0 rgba(255,255,255,.6),
-    330px 55px 0 #fff,  60px 110px 0 rgba(255,255,255,.7),
-    150px 100px 0 #fff, 230px 120px 0 rgba(255,255,255,.8);
-  animation:snowFall 18s linear infinite;
-  pointer-events:none;z-index:1;opacity:.9;
+  content:'';position:absolute;top:0;left:0;width:100%;height:200%;
+  background-image:var(--fx-snow-bg,none);
+  animation:snowFall 14s linear infinite;
+  pointer-events:none;z-index:1;
 }
-@keyframes snowFall{
-  0%  {transform:translateY(-50px) translateX(0);opacity:0}
-  3%  {opacity:.9}
-  95% {opacity:.9}
-  100%{transform:translateY(calc(100% + 100px)) translateX(30px);opacity:0}
-}
-
-/* ── 星空 ── */
-.eff-stars::before{
-  content:'';position:absolute;inset:0;
-  background-image:
-    radial-gradient(1.5px 1.5px at 10% 20%, #fff 50%, transparent),
-    radial-gradient(1px 1px at 25% 45%, #ffe 50%, transparent),
-    radial-gradient(2px 2px at 40% 15%, #fff 50%, transparent),
-    radial-gradient(1px 1px at 55% 60%, #ffe 50%, transparent),
-    radial-gradient(1.5px 1.5px at 65% 35%, #fff 50%, transparent),
-    radial-gradient(1px 1px at 78% 70%, #ffe 50%, transparent),
-    radial-gradient(2px 2px at 88% 25%, #fff 50%, transparent),
-    radial-gradient(1px 1px at 15% 75%, #ffe 50%, transparent),
-    radial-gradient(1.5px 1.5px at 50% 80%, #fff 50%, transparent),
-    radial-gradient(1px 1px at 72% 10%, #ffe 50%, transparent),
-    radial-gradient(2px 2px at 92% 55%, #fff 50%, transparent),
-    radial-gradient(1px 1px at 35% 30%, #ffe 50%, transparent);
-  animation:starTwinkle 3s ease-in-out infinite alternate;
-  pointer-events:none;z-index:1;opacity:.8;
-}
-@keyframes starTwinkle{
-  0%{opacity:.4}100%{opacity:1}
-}
-
-/* ── 流光渐变 ── */
-.eff-gradient-flow{
-  background:linear-gradient(270deg,var(--accent),#8b5cf6,#ec4899,var(--accent));
-  background-size:300% 100%;
-  animation:gradientShift 8s ease infinite;
-}
-@keyframes gradientShift{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
+@keyframes snowFall{0%{transform:translate(var(--fx-dx,-50%),-50%)}100%{transform:translate(0,0)}}
 
 /* ═══════════════════ 插槽 ═══════════════════ */
 ::slotted(*){max-width:100%}
