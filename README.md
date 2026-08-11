@@ -23,6 +23,7 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 | Card | `<miorian-card>` | 通用卡片容器，带头尾插槽 |
 | Modal | `<miorian-modal>` | 弹窗，JS 控制开关，ESC / 遮罩关闭 |
 | Spinner | `<miorian-spinner>` | 加载指示器，4 种动画样式 |
+| Avatar | `<miorian-avatar>` | 头像组件，波浪/圆环边框 + 悬停旋转 |
 
 ---
 
@@ -99,6 +100,8 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 | `glass` | boolean | 无 | 存在即启用毛玻璃覆盖层（在背景图上方、内容下方） |
 | `glass-blur` | string | `8px` | 毛玻璃模糊程度，如 `4px`、`12px`、`20px` |
 | `border` | string | — | 复合边框属性，格式见下表 |
+| `offset-x` | string | `0` | 水平微调偏移，纯数字自动补 `px`，也可带单位（`5vh`、`2rem`） |
+| `offset-y` | string | `0` | 垂直微调偏移，纯数字自动补 `px`，也可带单位（`5vh`、`2rem`） |
 
 ### `border` 复合边框属性
 
@@ -501,6 +504,49 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 
 <!-- 波动条 -->
 <miorian-spinner variant="bars" size="md" accent="#10b981"></miorian-spinner>
+```
+
+---
+
+## 7. Avatar — 头像
+
+**标签** `<miorian-avatar>` | **类名** `Avatar` | **文件** `Avatar.js`
+
+### 属性
+
+| 属性 | 类型 | 默认值 | 可选值 | 说明 |
+|------|------|--------|--------|------|
+| `src` | string | — | 图片 URL | 头像图片地址，不设则显示主题色占位块 |
+| `size` | string | `md` | `sm`(40px) / `md`(64px) / `lg`(96px) / `xl`(128px) | 头像尺寸 |
+| `shape` | string | `circle` | `circle`（圆形）/ `squircle`（超椭圆）/ `square`（圆角方形） | 头像形状 |
+| `bd-style` | string | `none` | `none` / `ring` / `wave` | 边框样式：无 / 圆环高亮 / 波浪环绕（SVG 路径动画旋转） |
+| `spin` | boolean | 无 | 存在即启用鼠标悬停时头像 360° 旋转 |
+
+### 示例
+
+```html
+<!-- 圆环边框 + 悬停旋转 -->
+<miorian-avatar
+  src="https://i.pravatar.cc/150?img=12"
+  size="lg" shape="circle"
+  bd-style="ring" spin
+></miorian-avatar>
+
+<!-- 波浪环绕 -->
+<miorian-avatar
+  src="https://i.pravatar.cc/150?img=5"
+  size="xl" shape="squircle"
+  bd-style="wave" accent="#ec4899"
+></miorian-avatar>
+
+<!-- 方形头像，无边框 -->
+<miorian-avatar
+  src="https://i.pravatar.cc/150?img=8"
+  size="md" shape="square"
+></miorian-avatar>
+
+<!-- 占位（无图片） -->
+<miorian-avatar size="md" bd-style="ring" accent="#10b981"></miorian-avatar>
 ```
 
 ---
