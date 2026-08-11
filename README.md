@@ -96,7 +96,8 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 | `theme` | string | `light` | `light` / `dark` / `neon` / `glass` / `paper` / `gradient` |
 | `accent` | string | `#6c5ce7` | 任意 CSS 颜色值（hex / rgb / hsl） |
 | `glow` | boolean | 无 | 存在即启用发光效果 |
-| `glass` | boolean | 无 | 存在即启用毛玻璃效果 |
+| `glass` | boolean | 无 | 存在即启用毛玻璃覆盖层（在背景图上方、内容下方） |
+| `glass-blur` | string | `8px` | 毛玻璃模糊程度，如 `4px`、`12px`、`20px` |
 
 ---
 
@@ -104,7 +105,7 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 
 **标签** `<miorian-block>` | **类名** `Block` | **文件** `Block.js`
 
-类似 `<div>` 的万能布局组件。自带 6 套主题、Flex 弹性布局、装饰特效、图片背景和 9 种动效。所有内容通过插槽自由放置。
+类似 `<div>` 的万能布局组件。自带 6 套主题、Flex 弹性布局、装饰特效、图片背景和 9 种动效。毛玻璃 `glass` 作为独立覆盖层叠在背景图上方、文字下方，模糊程度通过 `glass-blur` 调节。所有内容通过插槽自由放置。
 
 ### 尺寸
 
