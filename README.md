@@ -23,7 +23,6 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 | Card | `<miorian-card>` | 通用卡片容器，带头尾插槽 |
 | Modal | `<miorian-modal>` | 弹窗，JS 控制开关，ESC / 遮罩关闭 |
 | Spinner | `<miorian-spinner>` | 加载指示器，4 种动画样式 |
-| Avatar | `<miorian-avatar>` | 头像组件，波浪/圆环边框 + 悬停旋转 |
 
 ---
 
@@ -99,26 +98,6 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 | `glow` | boolean | 无 | 存在即启用发光效果 |
 | `glass` | boolean | 无 | 存在即启用毛玻璃覆盖层（在背景图上方、内容下方） |
 | `glass-blur` | string | `8px` | 毛玻璃模糊程度，如 `4px`、`12px`、`20px` |
-| `border` | string | — | 复合边框属性，格式见下表 |
-| `offset-x` | string | `0` | 水平微调偏移，纯数字自动补 `px`，也可带单位（`5vh`、`2rem`） |
-| `offset-y` | string | `0` | 垂直微调偏移，纯数字自动补 `px`，也可带单位（`5vh`、`2rem`） |
-
-### `border` 复合边框属性
-
-一个属性同时控制边框显隐、颜色和透明度。格式：`颜色|透明度`，或单独 `none` / `show`。
-
-| 写法 | 效果 |
-|------|------|
-| 不设置 | 使用各组件主题默认边框 |
-| `border="none"` | 隐藏边框（宽度归零） |
-| `border="show"` | 显示边框，使用主题默认颜色，100% 不透明 |
-| `border="#ff0000"` | 边框颜色设为 `#ff0000`，100% 不透明 |
-| `border="#ff0000\|50"` | 边框颜色设为 `#ff0000`，50% 透明度 |
-| `border="#ff0000\|20"` | 边框颜色设为 `#ff0000`，20% 透明度（近乎透明） |
-
-> 透明度支持 0~100 的数字，也可以带 `%` 号（如 `50%`）。底层使用 `color-mix()` 将颜色与 transparent 混合实现透明效果。
->
-> 该属性优先级高于 `bordercolor`（Block）和各组件主题自带的边框色。
 
 ---
 
@@ -362,17 +341,13 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 
 | 属性 | 类型 | 默认值 | 可选值 | 说明 |
 |------|------|--------|--------|------|
-| `width` | string | `100%` | 任意 CSS 值（`300px`、`50vw`、`auto` …） | 卡片宽度 |
-| `height` | string | `auto` | 任意 CSS 值 | 卡片高度 |
-| `Borad` | string | `14` | 圆角半径，单位 px | 卡片圆角 |
 | `padding` | string | `md` | `none` / `sm` / `md` / `lg` | 内容区内边距 |
 | `hover` | string | `none` | `none` / `lift` / `border` | 悬停效果：无 / 上浮 / 边框高亮 |
 | `shadowlevel` | string | `1` | `0` / `1` / `2` / `3` | 阴影层级 |
-| `glow` | boolean | — | — | 发光效果 |
-| `glass` | boolean | — | — | 毛玻璃效果 |
-| `transparent` | boolean | — | — | 存在即背景透明（保留边框、阴影、文字色） |
-| `header` | string | — | — | 头部标题文字 |
-| `footer` | string | — | — | 底部文字 |
+| `glow` | boolean | — | 发光效果 |
+| `glass` | boolean | — | 毛玻璃效果 |
+| `header` | string | — | 头部标题文字 |
+| `footer` | string | — | 底部文字 |
 
 ### 插槽
 
@@ -404,14 +379,6 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
   <div slot="header">⚡ 自定义头部</div>
   <p>毛玻璃 + 发光效果</p>
   <div slot="footer">底部内容</div>
-</miorian-card>
-
-<!-- 自定义尺寸 + 透明背景 -->
-<miorian-card
-  width="400px" height="200px" Borad="20"
-  transparent hover="border" accent="#f59e0b"
->
-  <p>固定尺寸、透明底、悬停边框高亮</p>
 </miorian-card>
 ```
 
@@ -504,49 +471,6 @@ MioRian 是一套**纯原生 Web Components 组件库**，包含 6 个精心设�
 
 <!-- 波动条 -->
 <miorian-spinner variant="bars" size="md" accent="#10b981"></miorian-spinner>
-```
-
----
-
-## 7. Avatar — 头像
-
-**标签** `<miorian-avatar>` | **类名** `Avatar` | **文件** `Avatar.js`
-
-### 属性
-
-| 属性 | 类型 | 默认值 | 可选值 | 说明 |
-|------|------|--------|--------|------|
-| `src` | string | — | 图片 URL | 头像图片地址，不设则显示主题色占位块 |
-| `size` | string | `md` | `sm`(40px) / `md`(64px) / `lg`(96px) / `xl`(128px) | 头像尺寸 |
-| `shape` | string | `circle` | `circle`（圆形）/ `squircle`（超椭圆）/ `square`（圆角方形） | 头像形状 |
-| `bd-style` | string | `none` | `none` / `ring` / `wave` | 边框样式：无 / 圆环高亮 / 波浪环绕（SVG 路径动画旋转） |
-| `spin` | boolean | 无 | 存在即启用鼠标悬停时头像 360° 旋转 |
-
-### 示例
-
-```html
-<!-- 圆环边框 + 悬停旋转 -->
-<miorian-avatar
-  src="https://i.pravatar.cc/150?img=12"
-  size="lg" shape="circle"
-  bd-style="ring" spin
-></miorian-avatar>
-
-<!-- 波浪环绕 -->
-<miorian-avatar
-  src="https://i.pravatar.cc/150?img=5"
-  size="xl" shape="squircle"
-  bd-style="wave" accent="#ec4899"
-></miorian-avatar>
-
-<!-- 方形头像，无边框 -->
-<miorian-avatar
-  src="https://i.pravatar.cc/150?img=8"
-  size="md" shape="square"
-></miorian-avatar>
-
-<!-- 占位（无图片） -->
-<miorian-avatar size="md" bd-style="ring" accent="#10b981"></miorian-avatar>
 ```
 
 ---
