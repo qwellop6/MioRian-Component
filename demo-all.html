@@ -342,11 +342,129 @@
   <div class="muted">点击图标跳转到对应 src 链接 &middot; hover 轻微放大</div>
 </div>
 
+<!-- ═══════════════ Post 组件 ═══════════════ -->
+
+<div class="sec">
+  <h2>Post &middot; 只读模式</h2>
+  <miorian-post theme="light" mode="read" width="80%" padding="none" shadowlevel="2"
+    file="https://raw.githubusercontent.com/qwellop6/MioRian-Component/main/README.md"
+    style="max-width:800px;margin:0 auto;"></miorian-post>
+  <div class="muted">mode="read" + file="远程 .md 地址" → 自动 fetch + MD→HTML 渲染</div>
+</div>
+
+<div class="sec d2">
+  <h2>Post &middot; 编辑模式</h2>
+  <miorian-post theme="dark" mode="edit" width="80%" padding="none" shadowlevel="1"
+    file="https://raw.githubusercontent.com/qwellop6/MioRian-Component/main/README.md"
+    style="max-width:800px;margin:0 auto;"></miorian-post>
+  <div class="muted">mode="edit" + file → fetch 后进入 textarea 编辑，点击保存回写原地址</div>
+</div>
+
+<div class="sec">
+  <h2>Post &middot; 新建模式</h2>
+  <miorian-post theme="light" mode="write" width="80%" padding="none" shadowlevel="2"
+    src="/api/posts/new-post.md"
+    style="max-width:800px;margin:0 auto;"></miorian-post>
+  <div class="muted">mode="write" + src="保存地址" → 空白编辑器，写完后保存到 src</div>
+</div>
+
+<!-- ═══════════════ Heading 组件 ═══════════════ -->
+
+<div class="sec d2">
+  <h2>Heading &middot; 标题 + 装饰线</h2>
+  <div class="col" style="gap:24px">
+    <miorian-heading level="h1" underline underline-color="#6366f1" underline-thickness="4px">
+      H1 下划线（4px 实线）
+    </miorian-heading>
+    <miorian-heading level="h2" underline underline-style="wavy" underline-color="#f59e0b">
+      H2 波浪下划线
+    </miorian-heading>
+    <miorian-heading level="h3" underline underline-style="dashed" underline-color="#22c55e" underline-thickness="3px">
+      H3 虚线下划线（3px）
+    </miorian-heading>
+    <miorian-heading level="h2" line-through line-color="#e24b4a" line-thickness="3px">
+      H2 删除线（红色 3px）
+    </miorian-heading>
+    <miorian-heading level="h3" underline underline-color="#6366f1" line-through line-color="#e24b4a" line-thickness="2px">
+      H3 下划线 + 删除线（独立颜色）
+    </miorian-heading>
+  </div>
+  <div class="muted">underline-style: solid / dashed / dotted / wavy | 可自由开关 + 独立颜色+粗细</div>
+</div>
+
+<div class="sec">
+  <h2>Heading &middot; 文字对齐 + 圆润装饰线</h2>
+  <div class="col" style="gap:24px">
+    <miorian-heading level="h2" text-align="center" underline
+      underline-color="#6366f1" underline-style="wavy">
+      居中 · 波浪下划线
+    </miorian-heading>
+    <miorian-heading level="h2" text-align="right" underline
+      underline-color="#22c55e" underline-thickness="3px">
+      右对齐 · 实线下划线
+    </miorian-heading>
+    <miorian-heading level="h2" text-align="center" underline
+      underline-color="#f59e0b" underline-radius="8px" underline-thickness="4px">
+      居中 · 8px 圆润下划线
+    </miorian-heading>
+    <miorian-heading level="h2" text-align="center"
+      underline underline-color="#6366f1" underline-radius="6px" underline-thickness="3px"
+      line-through line-color="#e24b4a" line-radius="4px" line-thickness="2px">
+      双线圆润（蓝下划6px + 红删除4px）
+    </miorian-heading>
+  </div>
+  <div class="muted">text-align: left / center / right | underline-radius / line-radius 可自由调节 px</div>
+</div>
+  <div class="col" style="gap:20px">
+    <miorian-heading level="h1" font-family="Georgia,serif" font-size="3rem" color="#6366f1"
+      underline underline-color="#6366f1" underline-style="wavy">
+      衬线字体 · 波浪线
+    </miorian-heading>
+    <miorian-heading level="h2" font-weight="300" letter-spacing="0.15em" color="#666"
+      underline underline-style="dotted" underline-color="#999">
+      LIGHT WEIGHT · 点线下划线
+    </miorian-heading>
+    <miorian-heading level="h3" font-style="italic" font-weight="600" color="#333">
+      斜体加粗 · 无装饰线
+    </miorian-heading>
+  </div>
+  <div class="muted">font-family / font-size / font-weight / font-style / letter-spacing / color</div>
+</div>
+
 <!-- ── 脚本 ── -->
+<!-- ═══════════════ ArticleCard 组件 ═══════════════ -->
+
+<div class="sec d2">
+  <h2>ArticleCard &middot; 封面左 / 封面右 / 无封面</h2>
+  <div class="col" style="gap:24px;width:100%;max-width:800px">
+    <miorian-article-card theme="dark" width="100%" shadowlevel="2"
+      cover="https://uapis.cn/api/v1/random/image?category=acg&type=pc"
+      title="封面左对齐（默认）" title-font-weight="700" title-font-size="1.3rem"
+      desc="封面在左侧，标题和简介在右侧。cover-align 默认 left。"
+      desc-font-size="0.9rem">
+    </miorian-article-card>
+    <miorian-article-card theme="dark" width="100%" shadowlevel="2" cover-align="right"
+      cover="https://uapis.cn/api/v1/random/image?category=acg&type=pc"
+      cover-width="30%" title="封面右对齐" title-font-weight="700" title-color="#00e5ff"
+      desc="cover-align=&quot;right&quot; 封面移到右侧，文字移到左侧。"
+      desc-color="rgba(255,255,255,.7)">
+    </miorian-article-card>
+    <miorian-article-card theme="dark" width="100%" shadowlevel="2"
+      title="纯文本卡片（无封面）"
+      title-font-weight="600"
+      desc="不设 cover 时纯文字排版，标题在上简介在下。继承全套 Heading font 属性。">
+    </miorian-article-card>
+  </div>
+  <div class="muted">cover / cover-align / cover-width | 标题和简介各继承全套 font 属性</div>
+</div>
+
 <script src="BaseProps.js"></script>
 <script src="Block.js"></script>
 <script src="Input.js"></script>
 <script src="Avatar.js"></script>
 <script src="Social.js"></script>
+<script src="Post.js"></script>
+<script src="Heading.js"></script>
+<script src="ArticleCard.js"></script>
 </body>
 </html>
