@@ -126,6 +126,8 @@ class Input extends HTMLElement {
       if (api) {
         this._displayEl.textContent = '加载中...';
         this._fetchApi();
+        /* 自动刷新（平滑过渡） */
+        if (bp.refresh > 0) this._rfTimer = setInterval(() => this._refreshSmooth(), bp.refresh * 1000);
       } else {
         this._displayEl.textContent = value;
         if (this.hasAttribute('typewriter')) this._startTypewriter();
@@ -135,6 +137,7 @@ class Input extends HTMLElement {
 
   disconnectedCallback() {
     clearInterval(this._twTimer);
+    clearInterval(this._rfTimer);
   }
 
   /* ── 打字机 ── */
@@ -185,7 +188,40 @@ class Input extends HTMLElement {
       this._displayEl.textContent = '请求失败: ' + e.message;
     }
   }
-  get native() { return this._input; }
+
+  /* ── 平滑刷新：退格退场 → 拉取 → 进场 ── */
+  async _refreshSmooth() {
+    if (!this._displayEl) return;
+    const hasAnim = this.hasAttribute('typewriter');
+    const bsSpeed  = 30; // 退格速度 ms/字
+
+    /* 1. 退格动画 */
+    if (hasAnim) {
+      const text = this._displayEl.textContent;
+      if (text && text.length > 0) {
+        await new Promise(resolve => {
+          let i = text.length;
+          const t = setInterval(() => {
+            i--;
+            this._displayEl.textContent = text.slice(0, i);
+            if (i <= 0) { clearInterval(t); resolve(); }
+          }, bsSpeed);
+        });
+      }
+    }
+
+    /* 2. 拉取新数据 */
+    const url = this.getAttribute('api');
+    if (!url) return;
+    try {
+      const res = await fetch(url);
+      const text = await res.text();
+      this._displayEl.textContent = text;
+
+      /* 3. 打字机进场 */
+      if (hasAnim) this._startTypewriter();
+    } catch (_) { /* 刷新静默失败，保留当前文字 */ }
+  }
   get value()  {
     return this._input ? this._input.value : (this.getAttribute('value') || '');
   }

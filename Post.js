@@ -66,6 +66,11 @@ class Post extends HTMLElement {
     /* ── 模式初始化 ── */
     this._initMode();
 
+    /* ── 自动刷新（仅只读模式）── */
+    if (bp.refresh > 0 && this._mode === 'read') {
+      this._rfTimer = setInterval(() => this._initMode(), bp.refresh * 1000);
+    }
+
     /* ── 事件 ── */
     this._editView.addEventListener('input', () => { this._dirty = true; });
     if (this._btnPreview) this._btnPreview.addEventListener('click', () => this._togglePreview());
@@ -73,6 +78,10 @@ class Post extends HTMLElement {
   }
 
   /* ═══════════════════ 模式初始化 ═══════════════════ */
+
+  disconnectedCallback() {
+    clearInterval(this._rfTimer);
+  }
 
   async _initMode() {
     if (this._mode === 'write') {

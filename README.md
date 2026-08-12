@@ -76,6 +76,12 @@
 | `anim` | `none` | `fade-in` / `slide-up/down/left/right` / `pop` / `bounce` / `shake` / `pulse` / `spin` |
 | `hover` | `none` | `lift` / `glow-pulse` |
 
+### 自动刷新
+
+| 属性 | 默认值 | 说明 |
+|------|--------|------|
+| `refresh` | — | 自动刷新间隔（秒），如 `refresh="10"`。接入组件会周期性更新数据，配合 Input 打字机可实现平滑退场→拉取→进场过渡 |
+
 ---
 
 ## 主题系统
@@ -148,6 +154,8 @@
 | `typewriter` | — | 打字机特效 |
 | `typewriter-speed` | `80` | ms/字 |
 | `show-password` | — | 密码明文切换 |
+
+> **平滑刷新：** 设 `refresh="10"` 后，每 10 秒自动拉取最新数据，旧文字先逐字退格消退（30ms/字），再逐字打出新内容，无「加载中」闪烁。
 
 ```html
 <miorian-input mode="display"
@@ -295,11 +303,11 @@
 | `file` | 导入地址（edit/read 模式的加载来源） |
 | `src` | 保存地址（write 模式的目标 / edit 可选覆盖） |
 
-| 模式 | 需要 | 界面 | 保存 |
-|------|------|------|------|
-| `read` | `file` | Prose 渲染 | — |
-| `edit` | `file` | textarea + 预览/保存 | 回写 `file` |
-| `write` | `src` | 空白 textarea + 预览/保存 | 存到 `src` |
+| 模式 | 需要 | 界面 | 保存 | 刷新 |
+|------|------|------|------|------|
+| `read` | `file` | Prose 渲染 | — | 支持 `refresh` 自动重拉 |
+| `edit` | `file` | textarea + 预览/保存 | 回写 `file` | — |
+| `write` | `src` | 空白 textarea + 预览/保存 | 存到 `src` | — |
 
 内置轻量 MD 解析器（标题/粗体/斜体/链接/图片/代码块/列表/引用/分割线/表格）。
 
@@ -360,4 +368,4 @@
 
 ---
 
-> **MioRian Component** · 纯原生 Web Components · 零依赖 · 2026-08-12
+> **MioRian Component** · 纯原生 Web Components · 零依赖 · 7 组件 · 2026-08-12

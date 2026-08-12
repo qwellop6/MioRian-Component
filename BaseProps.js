@@ -43,6 +43,9 @@ const BaseProps = (() => {
     const anim  = el.getAttribute('anim')  || 'none';
     const hover = el.getAttribute('hover') || 'none';
 
+    /* ── 自动刷新（秒）── */
+    const refresh = parseInt(el.getAttribute('refresh')) || 0;
+
     /* ── 注入 data-theme + CSS 变量 ── */
     el.setAttribute('data-theme', theme);
     const s = el.style;
@@ -74,7 +77,7 @@ const BaseProps = (() => {
       anim !== 'none' ? `anim anim-${anim}` : '',
     ].filter(Boolean).join(' ');
 
-    return { classList, theme, accent };
+    return { classList, theme, accent, refresh };
   }
 
   /* ═══════════════════ 通用 CSS ═══════════════════ */
