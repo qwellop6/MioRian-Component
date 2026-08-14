@@ -1,6 +1,6 @@
 # MioRian Component
 
-一款基于 **Web Components（Shadow DOM）** 的自定义 Web UI 组件库 ；高效、简洁、无依赖。
+基于 **Web Components（Shadow DOM）** 的纯原生 UI 组件库。零依赖、无构建工具、无需任何第三方框架，直接以自定义 HTML 标签使用，兼容所有现代浏览器。
 
 ---
 
@@ -16,6 +16,7 @@
 | `<miorian-article-card>` | 文章卡片（封面 + 标题 + 简介 + 跳转） |
 | `<miorian-btnlink>` | 钮链（按钮 / 链接双模式） |
 | `<miorian-post>` | 文章 / Markdown 编辑器（读/编辑/新建三模式） |
+| `<miorian-dropdown>` | 多级下拉盒子（悬停触发 / 无限嵌套 / 抽屉推移） |
 
 ---
 
@@ -32,6 +33,7 @@
 <script src="ArticleCard.js"></script>
 <script src="BtnLink.js"></script>
 <script src="Post.js"></script>
+<script src="Dropdown.js"></script>
 
 <miorian-block theme="light" padding="md">
   <miorian-avatar src="avatar.jpg" size="lg" border="ring"></miorian-avatar>
@@ -174,7 +176,7 @@
 
 | 属性 | 默认值 | 说明 |
 |------|--------|------|
-| `src` / `alt` | — / `avatar` | 图片 / 替代文本 |
+| `src` / `alt` | — / `avatar` | 图片 / 替代文本；**`src` 为空时自动显示默认游客剪影**（人形 SVG，无网络请求） |
 | `size` | `md` | `sm`(38) / `md`(62) / `lg`(94) / `xl`(136) / 自定义 `28px` |
 | `border` | `none` | `ring`（实心圆环）/ `wave`（虚线波浪，自动旋转） |
 | `rotate` | — | 悬停旋转 360° |
@@ -287,4 +289,50 @@
 
 ---
 
-> **MioRian Component** · 2026.8.15 '
+## miorian-dropdown · 多级下拉盒子
+
+悬停触发器时，在其下方/左方/右方显示内容盒子，可无限嵌套。继承 Block 全部属性（theme / accent / 边框 / 阴影 / 圆角 / flex / gap / padding）。
+
+```html
+<miorian-dropdown theme="light" open arrow menu-align="center" arrow-align="center">
+  <!-- 触发器：悬停它显示菜单 -->
+  <miorian-avatar slot="trigger" size="lg" border="ring"></miorian-avatar>
+  <!-- 默认插槽：菜单内容 -->
+  <div style="display:flex;flex-direction:column;gap:2px;padding:6px;width:180px">
+    <span>个人主页</span>
+    <span>退出登录</span>
+  </div>
+</miorian-dropdown>
+```
+
+### 专属属性
+
+| 属性 | 默认值 | 说明 |
+|------|--------|------|
+| `side` | `down` | 菜单出现方位：`down` / `left` / `right` |
+| `open` | — | 布尔，开启展开动画（down 上→下，left 右→左，right 左→右） |
+| `open-time` | `0.3` | 动画时长（秒） |
+| `push` | — | 布尔，抽屉式推移（仅 left/right）：菜单展开时把触发器挤到对面 |
+| `menu-align` | `left` | 菜单水平对齐（仅 down）：`left` / `center` / `right` |
+| `arrow` | — | 布尔，显示三角箭头（仅 down） |
+| `arrow-align` | `left` | 箭头位置：`left` / `center` / `right` |
+| `arrow-offset` | `20px` | 箭头微调偏移（px / % / vw） |
+
+### 关键设计
+
+- **触发器 vs 菜单**：`slot="trigger"` 是常驻显示的「门把手」，默认插槽是「悬停弹出的菜单」。
+- **无限嵌套**：菜单里再放 `<miorian-dropdown>` 即形成二级/三级子菜单，纯 CSS `:hover` 驱动，无需 JS。
+- **width / height 作用于面板**：不写或 `auto`/`%` 时按内容自适应（`max-content`，不换行），固定值（px/vh/rem）精确生效。
+- **push 抽屉推移**：用 transform 换位 + `ResizeObserver` 实时测宽，收起时触发器原地不动，展开时被精准挤到对面。
+
+```html
+<!-- 菜单在左，展开时把触发器推向右侧（抽屉效果） -->
+<miorian-dropdown side="left" push open>
+  <miorian-btnlink slot="trigger" mode="button">推移 ▸</miorian-btnlink>
+  <div>菜单项...</div>
+</miorian-dropdown>
+```
+
+---
+
+> **MioRian Component** · 纯原生 Web Components · 零依赖 · 9 组件 · 2026-08-15

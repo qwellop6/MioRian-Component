@@ -24,7 +24,11 @@ class Social extends HTMLElement {
     /* Social 同 Avatar：尺寸由 size 控制，不受 BaseProps 默认值干扰 ── */
     this.style.setProperty('--w', 'auto');
     this.style.setProperty('--h', 'auto');
-    const cls = bp.classList.replace(/\bpd-\w+\b/g, '').trim();
+    const cls = bp.classList
+      .replace(/\bpd-\w+\b/g, '')
+      .replace(/\bflx-\S+/g, '')
+      .replace(/\bhv-\S+/g, '')
+      .replace(/\s{2,}/g, ' ').trim();
 
     /* ── Social 专属属性 ── */
     const src    = this.getAttribute('src')    || '';

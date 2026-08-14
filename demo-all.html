@@ -178,15 +178,16 @@
 <!-- ═══════════════ Avatar 组件 ═══════════════ -->
 
 <div class="sec d1">
-  <h2>Avatar · 尺寸 / 边框 / 旋转</h2>
+  <h2>Avatar · 尺寸 / 边框 / 旋转 / 默认剪影</h2>
   <div class="row" style="gap:32px">
     <miorian-avatar src="https://i.pravatar.cc/150?img=12" size="sm"></miorian-avatar>
     <miorian-avatar src="https://i.pravatar.cc/150?img=12" size="md"></miorian-avatar>
     <miorian-avatar src="https://i.pravatar.cc/150?img=12" size="lg" border="ring" accent="#6366f1"></miorian-avatar>
     <miorian-avatar src="https://i.pravatar.cc/150?img=5" size="xl" border="wave" accent="#00e5ff"></miorian-avatar>
     <miorian-avatar src="https://i.pravatar.cc/150?img=3" size="xl" border="wave" rotate accent="#f59e0b"></miorian-avatar>
+    <miorian-avatar size="lg" border="ring" accent="#94a3b8"></miorian-avatar>
   </div>
-  <div class="muted">size: sm/md/lg/xl 或自定义 · border: ring / wave · rotate 悬停旋转</div>
+  <div class="muted">size: sm/md/lg/xl 或自定义 · border: ring / wave · rotate 悬停旋转 · 无 src 时显示默认游客剪影</div>
 </div>
 
 <!-- ═══════════════ Social 组件 ═══════════════ -->
@@ -323,6 +324,89 @@
   <div class="muted">mode=edit 回写原址 · mode=write 保存到 src</div>
 </div>
 
+<!-- ═══════════════ Dropdown 组件 ═══════════════ -->
+
+<div class="sec">
+  <h2>Dropdown · 多级下拉盒子</h2>
+  <div class="row" style="gap:48px">
+
+    <miorian-dropdown theme="light" open open-time="0.25" arrow>
+      <miorian-avatar slot="trigger" size="lg" border="ring" accent="#6366f1"></miorian-avatar>
+      <div style="display:flex;flex-direction:column;gap:2px;padding:6px;width:180px">
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">个人主页</span>
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">我的收藏</span>
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">设置</span>
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer;color:#e24b4a">退出登录</span>
+      </div>
+    </miorian-dropdown>
+
+    <miorian-dropdown theme="light" open open-time="0.3" arrow menu-align="center" arrow-align="center">
+      <miorian-btnlink slot="trigger" mode="button" href="#">居中菜单 ▾</miorian-btnlink>
+      <div style="display:flex;flex-direction:column;gap:2px;padding:6px;width:160px">
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">关于</span>
+        <miorian-dropdown theme="light" open open-time="0.25">
+          <span slot="trigger" style="padding:8px 12px;border-radius:6px;cursor:pointer;display:flex;justify-content:space-between">更多 ▸</span>
+          <div style="display:flex;flex-direction:column;gap:2px;padding:6px;width:140px">
+            <span style="padding:8px 12px;border-radius:6px;cursor:pointer">子菜单 1</span>
+            <span style="padding:8px 12px;border-radius:6px;cursor:pointer">子菜单 2</span>
+          </div>
+        </miorian-dropdown>
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">友链</span>
+      </div>
+    </miorian-dropdown>
+
+    <miorian-dropdown theme="dark" open open-time="0.2" arrow menu-align="right" arrow-align="right">
+      <miorian-btnlink slot="trigger" mode="link" href="#" underline>右对齐菜单 ▾</miorian-btnlink>
+      <div style="display:flex;flex-direction:column;gap:2px;padding:6px;width:150px">
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">选项 A</span>
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">选项 B</span>
+      </div>
+    </miorian-dropdown>
+
+  </div>
+  <div class="muted">slot=trigger 悬停触发 · 默认插槽为菜单 · 可无限嵌套 · open 展开动画（上→下）· menu-align / arrow-align：left / center / right</div>
+</div>
+
+<div class="sec d2">
+  <h2>Dropdown · 横向展开 / 抽屉推移</h2>
+  <div class="row" style="gap:56px">
+
+    <miorian-dropdown theme="light" side="left" open>
+      <miorian-btnlink slot="trigger" mode="button" href="#">左侧展开 ▸</miorian-btnlink>
+      <div style="display:flex;flex-direction:column;gap:2px;padding:6px;width:140px">
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">左菜单 1</span>
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">左菜单 2</span>
+      </div>
+    </miorian-dropdown>
+
+    <miorian-dropdown theme="light" side="right" open>
+      <miorian-btnlink slot="trigger" mode="button" href="#">◂ 右侧展开</miorian-btnlink>
+      <div style="display:flex;flex-direction:column;gap:2px;padding:6px;width:140px">
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">右菜单 1</span>
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">右菜单 2</span>
+      </div>
+    </miorian-dropdown>
+
+    <miorian-dropdown theme="light" side="left" push open>
+      <miorian-btnlink slot="trigger" mode="button" href="#" accent="#f59e0b">推移 ▸</miorian-btnlink>
+      <div style="display:flex;flex-direction:column;gap:2px;padding:6px;width:140px">
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">抽屉菜单 1</span>
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">抽屉菜单 2</span>
+      </div>
+    </miorian-dropdown>
+
+    <miorian-dropdown theme="light" side="right" push open>
+      <miorian-btnlink slot="trigger" mode="button" href="#" accent="#22c55e">◂ 推移</miorian-btnlink>
+      <div style="display:flex;flex-direction:column;gap:2px;padding:6px;width:140px">
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">右抽屉 1</span>
+        <span style="padding:8px 12px;border-radius:6px;cursor:pointer">右抽屉 2</span>
+      </div>
+    </miorian-dropdown>
+
+  </div>
+  <div class="muted">side=left/right 横向展开 · push 抽屉推移（菜单在左推触发器向右，在右推向左）</div>
+</div>
+
 <!-- ── 脚本 ── -->
 <script src="BaseProps.js"></script>
 <script src="Block.js"></script>
@@ -333,5 +417,6 @@
 <script src="Heading.js"></script>
 <script src="ArticleCard.js"></script>
 <script src="BtnLink.js"></script>
+<script src="Dropdown.js"></script>
 </body>
 </html>

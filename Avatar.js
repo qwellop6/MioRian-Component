@@ -18,10 +18,14 @@ class Avatar extends HTMLElement {
     /* ── 通用属性 ── */
     const bp = BaseProps.read(this);
 
-    /* Avatar 特殊性：尺寸由 size 属性控制，不使用 BaseProps 的 width/padding 默认值 ── */
+    /* Avatar 特殊性：尺寸由 size 属性控制，不使用 BaseProps 的 width/padding/flex 默认值 ── */
     this.style.setProperty('--w', 'auto');
     this.style.setProperty('--h', 'auto');
-    const cls = bp.classList.replace(/\bpd-\w+\b/g, '').trim();
+    const cls = bp.classList
+      .replace(/\bpd-\w+\b/g, '')
+      .replace(/\bflx-\S+/g, '')
+      .replace(/\bhv-\S+/g, '')
+      .replace(/\s{2,}/g, ' ').trim();
 
     /* ── Avatar 专属属性 ── */
     const src    = this.getAttribute('src')    || '';
@@ -37,11 +41,16 @@ class Avatar extends HTMLElement {
 
     this._s.innerHTML = `<style>${AVATAR_CSS}${BaseProps.CSS}</style>
       <div class="avatar-wrap
+        ${src ? '' : 'no-src'}
         bd-${border}
         ${rotate ? 'rotatable' : ''}
         ${cls}
       ">
-        <img src="${src}" alt="${alt}">
+        ${src
+          ? `<img src="${src}" alt="${alt}">`
+          : `<svg class="avatar-svg" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="${alt}">
+               <path d="M12 12c2.7 0 4.8-2.2 4.8-4.8S14.7 2.4 12 2.4 7.2 4.6 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+             </svg>`}
       </div>`;
   }
 }
@@ -68,6 +77,16 @@ const AVATAR_CSS = `
   border-radius:50%;
 }
 
+/* ─ 未登录默认剪影 ─ */
+.avatar-wrap.no-src{
+  background:color-mix(in srgb,var(--t-fg) 7%,var(--t-bg));
+}
+.avatar-svg{
+  width:58%;height:58%;
+  color:var(--t-sub);
+  fill:currentColor;
+}
+
 /* ─ Border: 圆环（实心）─ */
 .bd-ring{
   border:4px solid var(--accent);
@@ -85,10 +104,12 @@ const AVATAR_CSS = `
 @keyframes waveSpin{to{transform:rotate(360deg)}}
 
 /* ─ 悬停旋转 ─ */
-.rotatable img{
+.rotatable img,
+.rotatable .avatar-svg{
   transition:transform .6s cubic-bezier(.22,1,.36,1);
 }
-.rotatable:hover img{
+.rotatable:hover img,
+.rotatable:hover .avatar-svg{
   transform:rotate(360deg);
 }
 `;
