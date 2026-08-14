@@ -295,7 +295,13 @@ const INPUT_CSS = {
   min-height:1.5em;line-height:1.5;width:100%;
   padding:10px 0;font-size:.9rem;color:var(--t-fg);
 }
-.display-text{white-space:pre-wrap;word-break:break-word}
+.display-text{
+  white-space:pre-wrap;word-break:break-word;
+  font-family:var(--bp-font,inherit);
+  font-weight:var(--bp-weight,inherit);
+  font-style:var(--bp-style,inherit);
+  letter-spacing:var(--bp-lsp,inherit);
+}
 .cursor{
   display:inline-block;color:var(--accent);font-weight:400;
   animation:cursorBlink .8s step-end infinite;

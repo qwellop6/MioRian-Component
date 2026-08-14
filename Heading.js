@@ -37,15 +37,8 @@ class Heading extends HTMLElement {
       .replace(/\bflx-(wrap|nowrap)\b/g, '').replace(/\bhv-\S+/g, '')
       .replace(/\s{2,}/g, ' ').trim();
 
-    /* ── 文字 ── */
+    /* ── 文字骨架（font 全套由 BaseProps 注入 --bp-*）── */
     const level     = this.getAttribute('level')      || 'h2';
-    const color     = this.getAttribute('color')      || '';
-    const fontFam   = this.getAttribute('font-family')    || '';
-    const fontSize  = this.getAttribute('font-size')      || '';
-    const fontWeight= this.getAttribute('font-weight')    || '';
-    const fontStyle = this.getAttribute('font-style')     || '';
-    const letterSp  = this.getAttribute('letter-spacing') || '';
-    const textAlign = this.getAttribute('text-align')     || '';
 
     /* ── 下划线 ── */
     const ul       = this.hasAttribute('underline');
@@ -60,15 +53,8 @@ class Heading extends HTMLElement {
     const ltThick  = this.getAttribute('line-thickness') || '2px';
     const ltRadius = this.getAttribute('line-radius')    || '';
 
-    /* ── 注入 CSS 变量 ── */
+    /* ── 注入装饰线 CSS 变量 ── */
     const st = this.style;
-    if (color)       st.setProperty('--h-color',  color);
-    if (fontFam)     st.setProperty('--h-font',   fontFam);
-    if (fontSize)    st.setProperty('--h-size',   fontSize);
-    if (fontWeight)  st.setProperty('--h-weight', fontWeight);
-    if (fontStyle)   st.setProperty('--h-style',  fontStyle);
-    if (letterSp)    st.setProperty('--h-lsp',    letterSp);
-    if (textAlign)   st.setProperty('--h-align',  textAlign);
     st.setProperty('--h-ul-color', ulColor);
     st.setProperty('--h-ul-thick', ulThick);
     st.setProperty('--h-ul-style', ulStyle);
@@ -121,13 +107,13 @@ const HEADING_CSS = `
 :host{display:inline-block;width:auto;height:auto}
 .hd{
   margin:0;padding:0;
-  color:var(--h-color,var(--t-fg));
-  font-family:var(--h-font,inherit);
-  font-size:var(--h-size,inherit);
-  font-weight:var(--h-weight,inherit);
-  font-style:var(--h-style,inherit);
-  letter-spacing:var(--h-lsp,inherit);
-  text-align:var(--h-align,inherit);
+  color:var(--bp-color,var(--t-fg));
+  font-family:var(--bp-font,inherit);
+  font-size:var(--bp-size,inherit);
+  font-weight:var(--bp-weight,inherit);
+  font-style:var(--bp-style,inherit);
+  letter-spacing:var(--bp-lsp,inherit);
+  text-align:var(--bp-align,inherit);
   text-decoration-color:var(--h-ul-color,var(--accent));
   text-decoration-style:var(--h-ul-style,solid);
   text-decoration-thickness:var(--h-ul-thick,2px);

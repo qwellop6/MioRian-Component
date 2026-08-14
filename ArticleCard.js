@@ -15,9 +15,9 @@ class ArticleCard extends HTMLElement {
   connectedCallback() {
     /* ── 通用属性 ── */
     const bp = BaseProps.read(this);
-    /* 不自适应100%宽 */
-    this.style.setProperty('--w', 'auto');
-    this.style.setProperty('--h', 'auto');
+    /* 默认收窄为内容宽，但保留用户显式设置的 width/height */
+    if (!this.hasAttribute('width'))  this.style.setProperty('--w', 'auto');
+    if (!this.hasAttribute('height')) this.style.setProperty('--h', 'auto');
     const cls = bp.classList
       .replace(/\bflx-d-\S+/g, '').replace(/\bflx-j-\S+/g, '').replace(/\bflx-a-\S+/g, '')
       .replace(/\bflx-(wrap|nowrap)\b/g, '').replace(/\bhv-\S+/g, '').replace(/\bpd-\w+\b/g, '')
@@ -83,7 +83,7 @@ class ArticleCard extends HTMLElement {
 
     const hasCover = !!cover;
 
-    this._s.innerHTML = `<style>${CARD_CSS}${BaseProps.CSS}</style>
+    this._s.innerHTML = `<style>${BaseProps.CSS}${CARD_CSS}</style>
       <div class="card ${hasCover ? 'has-cover' : ''} ${hover === 'lift' ? 'hover-lift' : ''} ${cls}">
         ${href ? `<a class="card-link" href="${href}" target="_blank" rel="noopener"></a>` : ''}
         ${cover ? `<img class="cover-img" src="${cover}" alt="cover" style="order:${coverOrder}">` : ''}
@@ -97,7 +97,7 @@ class ArticleCard extends HTMLElement {
 
 /* ═══════════════════ ArticleCard 专属 CSS ═══════════════════ */
 const CARD_CSS = `
-:host{display:block;width:auto}
+:host{display:block;width:var(--w,auto);height:var(--h,auto)}
 
 .card{
   position:relative;
@@ -142,25 +142,25 @@ const CARD_CSS = `
 
 .card-title{
   margin:0;
-  color:var(--t-color,var(--t-fg));
-  font-family:var(--t-font,inherit);
-  font-size:var(--t-size,1.25em);
-  font-weight:var(--t-weight,700);
-  font-style:var(--t-style,inherit);
-  letter-spacing:var(--t-lsp,inherit);
-  text-align:var(--t-align,inherit);
+  color:var(--t-color,var(--bp-color,var(--t-fg)));
+  font-family:var(--t-font,var(--bp-font,inherit));
+  font-size:var(--t-size,var(--bp-size,1.25em));
+  font-weight:var(--t-weight,var(--bp-weight,700));
+  font-style:var(--t-style,var(--bp-style,inherit));
+  letter-spacing:var(--t-lsp,var(--bp-lsp,inherit));
+  text-align:var(--t-align,var(--bp-align,inherit));
   line-height:1.4;
 }
 
 .card-desc{
   margin:0;
-  color:var(--d-color,var(--t-sub));
-  font-family:var(--d-font,inherit);
-  font-size:var(--d-size,.92em);
-  font-weight:var(--d-weight,400);
-  font-style:var(--d-style,inherit);
-  letter-spacing:var(--d-lsp,inherit);
-  text-align:var(--d-align,inherit);
+  color:var(--d-color,var(--bp-color,var(--t-sub)));
+  font-family:var(--d-font,var(--bp-font,inherit));
+  font-size:var(--d-size,var(--bp-size,.92em));
+  font-weight:var(--d-weight,var(--bp-weight,400));
+  font-style:var(--d-style,var(--bp-style,inherit));
+  letter-spacing:var(--d-lsp,var(--bp-lsp,inherit));
+  text-align:var(--d-align,var(--bp-align,inherit));
   line-height:1.6;
 }
 `;

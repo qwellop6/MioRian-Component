@@ -3,29 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MioRian Block + Input Demo</title>
+<title>MioRian Component · Demo</title>
 <style>
   *{margin:0;box-sizing:border-box}
   body{font-family:system-ui,-apple-system,sans-serif;background:#eef0f5;padding-bottom:60px}
-  .sec{padding:40px 28px}
+  .sec{padding:44px 28px}
   .sec.d1{background:linear-gradient(135deg,#0a0a1a,#1a0a2e)}
   .sec.d2{background:linear-gradient(135deg,#0f172a,#1e1b4b)}
-  h2{width:100%;text-align:center;font-size:12px;color:#999;letter-spacing:3px;margin-bottom:16px}
-  .sec.d1 h2,.sec.d2 h2{color:rgba(255,255,255,.3)}
+  h2{width:100%;text-align:center;font-size:12px;color:#999;letter-spacing:3px;margin-bottom:18px;font-weight:600}
+  .sec.d1 h2,.sec.d2 h2{color:rgba(255,255,255,.32)}
   .row{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:center}
   .col{display:flex;flex-direction:column;gap:20px;align-items:center}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:900px;margin:0 auto}
-  .muted{font-size:10px;color:#aaa;text-align:center;margin-top:6px}
-  .sec.d1 .muted,.sec.d2 .muted{color:rgba(255,255,255,.25)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:920px;margin:0 auto}
+  .muted{font-size:11px;color:#aaa;text-align:center;margin-top:8px;line-height:1.5}
+  .sec.d1 .muted,.sec.d2 .muted{color:rgba(255,255,255,.28)}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ BLOCK 组件 ═══════════════ -->
+<!-- ═══════════════ Block 组件 ═══════════════ -->
 
-<!-- ── 六套主题 ── -->
 <div class="sec">
-  <h2>Block &middot; 六套主题</h2>
+  <h2>Block · 六套主题</h2>
   <div class="row">
     <miorian-block theme="light" width="140px" height="70px" justify="center" align="center">Light</miorian-block>
     <miorian-block theme="dark" width="140px" height="70px" justify="center" align="center">Dark</miorian-block>
@@ -37,10 +36,9 @@
   <div class="muted">theme: light / dark / neon / glass / paper / gradient</div>
 </div>
 
-<!-- ── Flex 布局 ── -->
 <div class="sec d1">
-  <h2>Block &middot; Flex 布局</h2>
-  <div class="row" style="align-items:stretch;gap:24px">
+  <h2>Block · Flex 布局</h2>
+  <div class="row" style="gap:28px">
     <miorian-block theme="dark" direction="row" gap="8px" justify="center" padding="md" width="300px" height="100px">
       <miorian-block theme="neon" accent="#00e5ff" width="60px" height="60px" justify="center" align="center">A</miorian-block>
       <miorian-block theme="neon" accent="#00e5ff" width="60px" height="60px" justify="center" align="center">B</miorian-block>
@@ -55,69 +53,53 @@
   <div class="muted">direction: row / col + gap + justify + align</div>
 </div>
 
-<!-- ── 毛玻璃 + 雪花 ── -->
 <div class="sec">
-  <h2>Block &middot; 毛玻璃 + 雪花</h2>
-  <miorian-block
-    theme="light"
+  <h2>Block · 毛玻璃 + 雪花</h2>
+  <miorian-block theme="light"
     bg-image="https://uapis.cn/api/v1/random/image?category=acg&type=pc"
-    glass glass-blur="8px"
-    bg-effect="snow"
+    glass glass-blur="8px" bg-effect="snow"
     fx-density="dense" fx-size="lg" fx-angle="45"
-    glow shadowlevel="2"
-    direction="col" justify="center" align="center"
-    padding="xl" height="320px" Borad="16"
-  >
+    glow shadowlevel="2" direction="col" justify="center" align="center"
+    padding="xl" height="320px" Borad="16">
     <h2 style="color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.3)">雪花飘落</h2>
-    <p style="color:rgba(255,255,255,.8);margin-top:8px">毛玻璃下方背景模糊，雪花在一切之上</p>
+    <p style="color:rgba(255,255,255,.8);margin-top:8px">毛玻璃下方背景模糊，雪花在一切之上无缝循环</p>
   </miorian-block>
-  <div class="muted">bg-image + glass + snow (dense/lg/45&deg;)</div>
+  <div class="muted">bg-image + glass + snow（dense / lg / 45°）</div>
 </div>
 
-<!-- ── 樱花 + 隐藏背景/边框 ── -->
 <div class="sec d2">
-  <h2>Block &middot; 樱花 + 透明/无边框</h2>
+  <h2>Block · 樱花 + 透明/无边框</h2>
   <div class="row">
-    <miorian-block
-      theme="dark" no-background no-border
-      bg-effect="sakura"
+    <miorian-block theme="dark" no-background no-border bg-effect="sakura"
       fx-density="dense" fx-size="lg" fx-angle="30"
-      direction="col" justify="center" align="center"
-      padding="xl" width="260px" height="240px"
-    >
+      direction="col" justify="center" align="center" padding="xl" width="260px" height="240px">
       <span style="color:#ffb7c5;font-weight:600">透明容器</span>
       <span style="color:rgba(255,183,197,.6);font-size:12px">no-background + no-border</span>
     </miorian-block>
-    <miorian-block
-      theme="dark" no-border bordercolor="#ffb7c5"
-      bg-effect="sakura"
+    <miorian-block theme="dark" no-border bordercolor="#ffb7c5" bg-effect="sakura"
       fx-density="normal" fx-size="md" fx-angle="45"
-      direction="col" justify="center" align="center"
-      padding="xl" width="260px" height="240px"
-    >
+      direction="col" justify="center" align="center" padding="xl" width="260px" height="240px">
       <span style="color:#ffb7c5;font-weight:600">无边框</span>
-      <span style="color:rgba(255,183,197,.6);font-size:12px">no-border + custom bordercolor</span>
+      <span style="color:rgba(255,183,197,.6);font-size:12px">no-border + 自定义 bordercolor</span>
     </miorian-block>
   </div>
 </div>
 
-<!-- ── 入场动效 ── -->
 <div class="sec">
-  <h2>Block &middot; 入场动效</h2>
+  <h2>Block · 入场动效</h2>
   <div class="row">
-    <miorian-block theme="light" anim="fade-in"      width="110px" height="55px" justify="center" align="center">fade-in</miorian-block>
-    <miorian-block theme="light" anim="slide-up"     width="110px" height="55px" justify="center" align="center">slide-up</miorian-block>
-    <miorian-block theme="light" anim="slide-left"   width="110px" height="55px" justify="center" align="center">slide-left</miorian-block>
-    <miorian-block theme="light" anim="pop"          width="110px" height="55px" justify="center" align="center">pop</miorian-block>
-    <miorian-block theme="light" anim="bounce"       width="110px" height="55px" justify="center" align="center">bounce</miorian-block>
-    <miorian-block theme="light" anim="pulse"        width="110px" height="55px" justify="center" align="center">pulse</miorian-block>
+    <miorian-block theme="light" anim="fade-in"    width="110px" height="55px" justify="center" align="center">fade-in</miorian-block>
+    <miorian-block theme="light" anim="slide-up"   width="110px" height="55px" justify="center" align="center">slide-up</miorian-block>
+    <miorian-block theme="light" anim="slide-left" width="110px" height="55px" justify="center" align="center">slide-left</miorian-block>
+    <miorian-block theme="light" anim="pop"        width="110px" height="55px" justify="center" align="center">pop</miorian-block>
+    <miorian-block theme="light" anim="bounce"     width="110px" height="55px" justify="center" align="center">bounce</miorian-block>
+    <miorian-block theme="light" anim="pulse"      width="110px" height="55px" justify="center" align="center">pulse</miorian-block>
   </div>
   <div class="muted">anim: fade-in / slide-up / slide-left / pop / bounce / pulse / shake / spin</div>
 </div>
 
-<!-- ── 阴影 + 悬停 ── -->
 <div class="sec d1">
-  <h2>Block &middot; 阴影 + 悬停</h2>
+  <h2>Block · 阴影 + 悬停</h2>
   <div class="row">
     <miorian-block theme="dark" shadowlevel="0" hover="lift" width="150px" height="70px" justify="center" align="center">shadow 0</miorian-block>
     <miorian-block theme="dark" shadowlevel="1" hover="lift" width="150px" height="70px" justify="center" align="center">shadow 1</miorian-block>
@@ -128,336 +110,220 @@
     <miorian-block theme="dark" accent="#00e5ff" glow hover="glow-pulse" width="180px" height="70px" justify="center" align="center">glow-pulse</miorian-block>
     <miorian-block theme="dark" accent="#a78bfa" glow hover="lift" width="180px" height="70px" justify="center" align="center">glow + lift</miorian-block>
   </div>
-  <div class="muted">shadowlevel: 0~n &middot; hover: lift / glow-pulse</div>
+  <div class="muted">shadowlevel: 0~n · hover: lift / glow-pulse</div>
 </div>
 
 <!-- ═══════════════ Input 组件 ═══════════════ -->
 
-<!-- ── Input 展示框 (display mode) + 打字机 ── -->
 <div class="sec">
-  <h2>Input &middot; 展示框 + 打字机特效</h2>
+  <h2>Input · 展示框 + 打字机</h2>
   <div class="grid">
     <div>
       <miorian-input mode="display" theme="light" label="名言" value="The only way to do great work is to love what you do." typewriter typewriter-speed="60" text-align="center" padding="md"></miorian-input>
-      <div class="muted">text-align: center + typewriter</div>
+      <div class="muted">typewriter + text-align: center</div>
     </div>
     <div>
-      <miorian-input mode="display" theme="paper" label="静默展示" value="这是一段不需要打字机特效的展示文字。可以用于显示只读信息、系统消息等。" padding="md"></miorian-input>
+      <miorian-input mode="display" theme="paper" label="静默展示" value="这是一段不需要打字机特效的展示文字，用于显示只读信息。" padding="md"></miorian-input>
       <div class="muted">display 模式（无打字机）</div>
     </div>
     <div>
-      <miorian-input mode="display" theme="dark" label="终端输出" value="> npm install miorian-ui\n> Installing packages...\n> Done in 3.2s" typewriter typewriter-speed="30" padding="md" accent="#00e5ff"></miorian-input>
-      <div class="muted">暗色终端风格 (speed: 30ms)</div>
+      <miorian-input mode="display" theme="dark" label="终端输出" value="> npm install miorian-ui\n> Done in 3.2s" typewriter typewriter-speed="30" padding="md" accent="#00e5ff"></miorian-input>
+      <div class="muted">暗色终端风格（speed: 30ms）</div>
     </div>
   </div>
 </div>
 
-<!-- ── Input 展示框 API 模式 ── -->
 <div class="sec d2">
-  <h2>Input &middot; API 数据接入 + 打字机</h2>
+  <h2>Input · API 数据接入 + 自动刷新</h2>
   <div class="grid">
     <div>
-      <miorian-input mode="display" theme="dark" label="一言 API"
+      <miorian-input mode="display" theme="dark" label="一言 API（每 10 秒刷新）"
         api="https://v1.hitokoto.cn/?encode=text"
-        typewriter typewriter-speed="80" text-align="center"
+        typewriter typewriter-speed="80" text-align="center" refresh="10"
         padding="md" accent="#00e5ff">
       </miorian-input>
-      <div class="muted">api 属性 + typewriter（自动请求并逐字展示）</div>
+      <div class="muted">api + typewriter + refresh=10（平滑退格→拉取→进场）</div>
     </div>
     <div>
       <miorian-input mode="display" theme="dark" label="一言 API（无特效）"
         api="https://v1.hitokoto.cn/?encode=text" text-align="center"
         padding="md" accent="#a78bfa">
       </miorian-input>
-      <div class="muted">api 属性（直接展示结果，无打字机）</div>
+      <div class="muted">api 直接展示，无打字机</div>
     </div>
   </div>
-  <div class="muted">api 属性：填入 URL，组件自动 fetch 并将返回文本展示</div>
 </div>
 
-<!-- ── Input 输入框 (input mode) ── -->
 <div class="sec d2">
-  <h2>Input &middot; 标准输入框</h2>
+  <h2>Input · 标准输入框 / 密码框</h2>
   <div class="grid">
     <miorian-input theme="dark" label="用户名" placeholder="请输入用户名" icon="&#128100;" padding="md"></miorian-input>
     <miorian-input theme="dark" label="邮箱" type="email" placeholder="you@example.com" padding="md"></miorian-input>
-    <miorian-input theme="dark" label="搜索" placeholder="搜索内容..." icon="&#128269;" padding="md" accent="#a78bfa"></miorian-input>
+    <miorian-input mode="password" theme="dark" label="密码" placeholder="请输入密码" show-password padding="md" accent="#a78bfa"></miorian-input>
   </div>
-  <div class="muted">input 模式: type (text/email/search/number...) + icon + label</div>
+  <div class="muted">input 模式（type / icon / label） · password 模式（show-password 明文切换）</div>
 </div>
 
-<!-- ── Input 各主题 ── -->
 <div class="sec">
-  <h2>Input &middot; 六套主题</h2>
+  <h2>Input · 状态 / 尺寸 / 通用属性</h2>
   <div class="grid">
-    <miorian-input theme="light" label="Light" placeholder="亮色主题" padding="md"></miorian-input>
-    <miorian-input theme="dark" label="Dark" placeholder="暗色主题" padding="md"></miorian-input>
-    <miorian-input theme="neon" label="Neon" placeholder="霓虹主题" padding="md" accent="#00e5ff"></miorian-input>
-    <miorian-input theme="glass" label="Glass" placeholder="毛玻璃" padding="md"></miorian-input>
-    <miorian-input theme="paper" label="Paper" placeholder="纸质主题" padding="md"></miorian-input>
-    <miorian-input theme="gradient" label="Gradient" placeholder="渐变主题" padding="md"></miorian-input>
-  </div>
-  <div class="muted">全部主题均适用于 Input</div>
-</div>
-
-<!-- ── Input 错误/禁用状态 ── -->
-<div class="sec d1">
-  <h2>Input &middot; 错误 / 禁用</h2>
-  <div class="grid">
-    <miorian-input theme="dark" label="密码" type="password" placeholder="请输入" invalid message="密码长度不足 8 位" padding="md"></miorian-input>
-    <miorian-input theme="dark" label="只读字段" value="不可修改" disabled padding="md"></miorian-input>
-    <miorian-input theme="dark" label="API Key" value="sk-xxxxxxxxxxxxx" disabled padding="md" icon="&#128273;"></miorian-input>
-  </div>
-  <div class="muted">invalid + message &middot; disabled</div>
-</div>
-
-<!-- ── Input 密码模式 (password mode) ── -->
-<div class="sec">
-  <h2>Input &middot; 密码加密框</h2>
-  <div class="grid">
-    <miorian-input mode="password" theme="light" label="登录密码" placeholder="请输入密码" show-password padding="md"></miorian-input>
-    <miorian-input mode="password" theme="dark" label="管理员密码" placeholder="管理员密码" show-password padding="md" accent="#a78bfa"></miorian-input>
-    <miorian-input mode="password" theme="neon" label="Token" placeholder="输入 Token" show-password padding="md" accent="#00e5ff" icon="&#128274;"></miorian-input>
-  </div>
-  <div class="muted">password 模式 + show-password（点击眼睛图标切换明文/密文）</div>
-</div>
-
-<!-- ── Input 尺寸 ── -->
-<div class="sec d2">
-  <h2>Input &middot; 三种尺寸</h2>
-  <div class="row" style="align-items:flex-start;gap:24px">
-    <miorian-input theme="dark" label="Small" placeholder="小号" size="sm" width="200px" padding="md"></miorian-input>
-    <miorian-input theme="dark" label="Medium" placeholder="中号" size="md" width="240px" padding="md"></miorian-input>
-    <miorian-input theme="dark" label="Large" placeholder="大号" size="lg" width="280px" padding="md"></miorian-input>
-  </div>
-  <div class="muted">size: sm / md / lg</div>
-</div>
-
-<!-- ── Input 通用属性：无背景/无边框/偏移/动效 ── -->
-<div class="sec">
-  <h2>Input &middot; 通用属性（no-bg / no-bd / offset / anim）</h2>
-  <div class="grid">
-    <miorian-input theme="light" label="透明背景" placeholder="no-background" no-background padding="md"></miorian-input>
+    <miorian-input theme="light" label="错误态" invalid message="格式不正确" padding="md"></miorian-input>
+    <miorian-input theme="light" label="禁用态" value="不可修改" disabled padding="md"></miorian-input>
     <miorian-input theme="light" label="无边框" placeholder="no-border" no-border padding="md"></miorian-input>
-    <miorian-input theme="dark" label="完全透明" placeholder="no-bg + no-bd" no-background no-border padding="md"></miorian-input>
-    <miorian-input theme="dark" label="偏移入" placeholder="anim pop" anim="pop" padding="md"></miorian-input>
+    <miorian-input theme="light" label="透明" placeholder="no-background" no-background padding="md"></miorian-input>
   </div>
-  <div class="muted">通用属性在所有组件中生效</div>
+  <div class="muted">invalid / disabled / no-border / no-background</div>
 </div>
 
 <!-- ═══════════════ Avatar 组件 ═══════════════ -->
 
-<!-- ── Avatar 尺寸 ── -->
 <div class="sec d1">
-  <h2>Avatar &middot; 四种尺寸</h2>
+  <h2>Avatar · 尺寸 / 边框 / 旋转</h2>
   <div class="row" style="gap:32px">
     <miorian-avatar src="https://i.pravatar.cc/150?img=12" size="sm"></miorian-avatar>
     <miorian-avatar src="https://i.pravatar.cc/150?img=12" size="md"></miorian-avatar>
-    <miorian-avatar src="https://i.pravatar.cc/150?img=12" size="lg"></miorian-avatar>
-    <miorian-avatar src="https://i.pravatar.cc/150?img=12" size="xl"></miorian-avatar>
+    <miorian-avatar src="https://i.pravatar.cc/150?img=12" size="lg" border="ring" accent="#6366f1"></miorian-avatar>
+    <miorian-avatar src="https://i.pravatar.cc/150?img=5" size="xl" border="wave" accent="#00e5ff"></miorian-avatar>
+    <miorian-avatar src="https://i.pravatar.cc/150?img=3" size="xl" border="wave" rotate accent="#f59e0b"></miorian-avatar>
   </div>
-  <div class="muted">size: sm (38px) / md (62px) / lg (94px) / xl (136px)</div>
-</div>
-
-<!-- ── Avatar 圆环 + 波浪环 ── -->
-<div class="sec">
-  <h2>Avatar &middot; 圆环 / 波浪环</h2>
-  <div class="row" style="gap:40px">
-    <div class="col">
-      <miorian-avatar src="https://i.pravatar.cc/150?img=5" size="xl" border="ring" accent="#6366f1"></miorian-avatar>
-      <div class="muted">border: ring（实心圆环）</div>
-    </div>
-    <div class="col">
-      <miorian-avatar src="https://i.pravatar.cc/150?img=5" size="xl" border="wave" accent="#6366f1"></miorian-avatar>
-      <div class="muted">border: wave（虚线波浪环，自动旋转）</div>
-    </div>
-    <div class="col">
-      <miorian-avatar src="https://i.pravatar.cc/150?img=33" size="xl" border="wave" accent="#00e5ff"></miorian-avatar>
-      <div class="muted">border: wave + cyan accent</div>
-    </div>
-  </div>
-</div>
-
-<!-- ── Avatar 悬停旋转 ── -->
-<div class="sec d2">
-  <h2>Avatar &middot; 悬停旋转</h2>
-  <div class="row" style="gap:40px">
-    <div class="col">
-      <miorian-avatar src="https://i.pravatar.cc/150?img=3" size="xl" rotate accent="#a78bfa"></miorian-avatar>
-      <div class="muted">rotate（悬停旋转 360&deg;）</div>
-    </div>
-    <div class="col">
-      <miorian-avatar src="https://i.pravatar.cc/150?img=7" size="xl" border="ring" rotate accent="#f59e0b"></miorian-avatar>
-      <div class="muted">ring + rotate</div>
-    </div>
-    <div class="col">
-      <miorian-avatar src="https://i.pravatar.cc/150?img=20" size="xl" border="wave" rotate accent="#e24b4a"></miorian-avatar>
-      <div class="muted">wave + rotate（双动效叠加）</div>
-    </div>
-  </div>
-</div>
-
-<!-- ── Block 内嵌 Avatar ── -->
-<div class="sec">
-  <h2>Avatar &middot; 在 Block 中使用</h2>
-  <div class="row">
-    <miorian-block theme="dark" direction="row" gap="20px" justify="center" align="center" padding="lg" width="460px">
-      <miorian-avatar src="https://i.pravatar.cc/150?img=12" size="lg" border="wave" accent="#00e5ff"></miorian-avatar>
-      <miorian-block theme="dark" no-background no-border direction="col" gap="4px" width="auto">
-        <span style="font-weight:700;font-size:16px">Mio Rian</span>
-        <span style="font-size:12px;opacity:.6">Frontend Engineer</span>
-        <span style="font-size:12px;opacity:.4">Shenzhen, China</span>
-      </miorian-block>
-    </miorian-block>
-  </div>
-  <div class="muted">Avatar + Block 组合：头像 + 文字信息卡片</div>
+  <div class="muted">size: sm/md/lg/xl 或自定义 · border: ring / wave · rotate 悬停旋转</div>
 </div>
 
 <!-- ═══════════════ Social 组件 ═══════════════ -->
 
 <div class="sec d2">
-  <h2>Social &middot; 社交链接图标</h2>
+  <h2>Social · 社交链接图标</h2>
   <div class="row" style="gap:40px">
     <div class="col">
-      <miorian-social src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg"
-        href="https://github.com" size="lg" border="ring" accent="#a78bfa"></miorian-social>
-      <div class="muted">GitHub（ring）</div>
+      <miorian-social src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" href="https://github.com" size="lg" border="ring" accent="#a78bfa"></miorian-social>
+      <div class="muted">GitHub</div>
     </div>
     <div class="col">
-      <miorian-social src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/bilibili.svg"
-        href="https://bilibili.com" size="lg" border="wave" accent="#00e5ff"></miorian-social>
-      <div class="muted">Bilibili（wave）</div>
+      <miorian-social src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/tencentqq.svg" href="https://im.qq.com" size="lg" border="wave" accent="#12b7f5"></miorian-social>
+      <div class="muted">QQ</div>
     </div>
     <div class="col">
-      <miorian-social src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/wechat.svg"
-        href="https://weixin.qq.com" size="lg" border="ring" accent="#07c160"></miorian-social>
-      <div class="muted">微信（ring）</div>
+      <miorian-social src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/bilibili.svg" href="https://bilibili.com" size="lg" border="ring" accent="#fb7299"></miorian-social>
+      <div class="muted">Bilibili</div>
     </div>
     <div class="col">
-      <miorian-social src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/twitter.svg"
-        href="https://twitter.com" size="lg" border="wave" accent="#1da1f2"></miorian-social>
-      <div class="muted">Twitter（wave）</div>
+      <miorian-social src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/neteasecloudmusic.svg" href="https://music.163.com" size="lg" border="wave" accent="#c20c0c"></miorian-social>
+      <div class="muted">网易云</div>
+    </div>
+    <div class="col">
+      <miorian-social src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/maildotru.svg" href="mailto:you@example.com" size="lg" border="ring" accent="#22c55e"></miorian-social>
+      <div class="muted">邮箱</div>
     </div>
   </div>
-  <div class="muted">点击图标跳转到对应 src 链接 &middot; hover 轻微放大</div>
+  <div class="muted">点击图标跳转 href · hover 轻微放大</div>
+</div>
+
+<!-- ═══════════════ Heading 组件 ═══════════════ -->
+
+<div class="sec">
+  <h2>Heading · 装饰线（下划线 / 删除线）</h2>
+  <div class="col" style="gap:22px">
+    <miorian-heading level="h1" underline underline-color="#6366f1" underline-thickness="4px">H1 下划线（4px 实线）</miorian-heading>
+    <miorian-heading level="h2" underline underline-style="wavy" underline-color="#f59e0b">H2 波浪下划线</miorian-heading>
+    <miorian-heading level="h3" underline underline-style="dashed" underline-color="#22c55e" underline-thickness="3px">H3 虚线下划线（3px）</miorian-heading>
+    <miorian-heading level="h2" line-through line-color="#e24b4a" line-thickness="3px">H2 删除线（红色 3px）</miorian-heading>
+    <miorian-heading level="h3" underline underline-color="#6366f1" line-through line-color="#e24b4a">H3 下划线 + 删除线（独立颜色）</miorian-heading>
+  </div>
+  <div class="muted">underline-style: solid / dashed / dotted / wavy · 独立颜色 + 粗细</div>
+</div>
+
+<div class="sec d2">
+  <h2>Heading · 文字对齐 + 圆润装饰线</h2>
+  <div class="col" style="gap:22px">
+    <miorian-heading level="h2" text-align="center" underline underline-color="#6366f1" underline-style="wavy">居中 · 波浪下划线</miorian-heading>
+    <miorian-heading level="h2" text-align="right" underline underline-color="#22c55e" underline-thickness="3px">右对齐 · 实线下划线</miorian-heading>
+    <miorian-heading level="h2" text-align="center" underline underline-color="#f59e0b" underline-radius="8px" underline-thickness="4px">居中 · 8px 圆润下划线</miorian-heading>
+    <miorian-heading level="h2" text-align="center" underline underline-color="#6366f1" underline-radius="6px" line-through line-color="#e24b4a" line-radius="4px">双线圆润（蓝下划 + 红删除）</miorian-heading>
+  </div>
+  <div class="muted">text-align: left / center / right · underline-radius / line-radius 可调 px</div>
+</div>
+
+<div class="sec">
+  <h2>Heading · 自定义字体</h2>
+  <div class="col" style="gap:20px">
+    <miorian-heading level="h1" font-family="Georgia,serif" font-size="3rem" color="#6366f1" underline underline-color="#6366f1" underline-style="wavy">衬线字体 · 波浪线</miorian-heading>
+    <miorian-heading level="h2" font-weight="300" letter-spacing="0.15em" color="#666" underline underline-style="dotted" underline-color="#999">LIGHT WEIGHT · 点线下划线</miorian-heading>
+    <miorian-heading level="h3" font-style="italic" font-weight="600" color="#333">斜体加粗 · 无装饰线</miorian-heading>
+  </div>
+  <div class="muted">color / font-family / font-size / font-weight / font-style / letter-spacing</div>
+</div>
+
+<!-- ═══════════════ ArticleCard 组件 ═══════════════ -->
+
+<div class="sec d2">
+  <h2>ArticleCard · 封面左 / 右 / 无封面</h2>
+  <div class="col" style="gap:24px;width:100%;max-width:800px">
+    <miorian-article-card theme="dark" width="100%" shadowlevel="2"
+      cover="https://uapis.cn/api/v1/random/image?category=acg&type=pc" cover-radius="12px"
+      title="封面左对齐（默认）" title-font-weight="700"
+      desc="封面在左，标题简介在右。cover-align 默认 left。" href="#" hover="lift" gap="16px">
+    </miorian-article-card>
+    <miorian-article-card theme="dark" width="100%" shadowlevel="2" cover-align="right"
+      cover="https://uapis.cn/api/v1/random/image?category=acg&type=pc" cover-radius="12px" cover-width="30%"
+      title="封面右对齐" title-font-weight="700" title-color="#00e5ff"
+      desc="cover-align=right 封面移到右侧，文字移到左侧。" href="#" hover="lift" gap="16px">
+    </miorian-article-card>
+    <miorian-article-card theme="dark" width="100%" shadowlevel="2"
+      title="纯文本卡片（无封面）" title-font-weight="600"
+      desc="不设 cover 时纯文字排版，标题在上简介在下。" href="#" hover="lift">
+    </miorian-article-card>
+  </div>
+  <div class="muted">cover / cover-align / cover-width / cover-radius · href 点击跳转 · hover=lift 悬浮</div>
+</div>
+
+<!-- ═══════════════ BtnLink 组件 ═══════════════ -->
+
+<div class="sec">
+  <h2>BtnLink · 按钮模式</h2>
+  <div class="row" style="gap:16px">
+    <miorian-btnlink mode="button" href="#">按钮（默认）</miorian-btnlink>
+    <miorian-btnlink mode="button" href="#" hover="lift" accent="#f59e0b" font-weight="700">悬浮按钮</miorian-btnlink>
+    <miorian-btnlink mode="button" href="#" border-width="4px" accent="#22c55e" font-size="1rem">粗边框</miorian-btnlink>
+    <miorian-btnlink mode="button" href="#" width="160px" text-align="left" font-style="italic">左对齐斜体</miorian-btnlink>
+  </div>
+  <div class="muted">hover=lift 悬浮 · border-width 自定义 · 继承全套字体</div>
+</div>
+
+<div class="sec d2">
+  <h2>BtnLink · 链接模式 + 下划线动效</h2>
+  <div class="row" style="gap:20px">
+    <miorian-btnlink mode="link" href="#">默认链接</miorian-btnlink>
+    <miorian-btnlink mode="link" href="#" hover-color="#e24b4a" font-weight="700" font-size="1.1rem">红色变色链接</miorian-btnlink>
+    <miorian-btnlink mode="link" href="#" underline>左→右下划线</miorian-btnlink>
+    <miorian-btnlink mode="link" href="#" underline underline-dir="right" underline-color="#e24b4a">右→左下划线</miorian-btnlink>
+    <miorian-btnlink mode="link" href="#" underline underline-dir="center" underline-color="#22c55e">中→两边下划线</miorian-btnlink>
+  </div>
+  <div class="muted">hover-color 启用变色 · underline 悬停下划线（left / right / center 延展方向）</div>
 </div>
 
 <!-- ═══════════════ Post 组件 ═══════════════ -->
 
 <div class="sec">
-  <h2>Post &middot; 只读模式</h2>
-  <miorian-post theme="light" mode="read" width="80%" padding="none" shadowlevel="2"
-    file="https://raw.githubusercontent.com/qwellop6/MioRian-Component/main/README.md"
-    style="max-width:800px;margin:0 auto;"></miorian-post>
-  <div class="muted">mode="read" + file="远程 .md 地址" → 自动 fetch + MD→HTML 渲染</div>
+  <h2>Post · 只读 / 编辑 / 新建</h2>
+  <div class="col" style="gap:20px;width:100%;max-width:800px">
+    <miorian-post theme="light" mode="read" width="100%" padding="none" shadowlevel="2"
+      file="https://raw.githubusercontent.com/qwellop6/MioRian-Component/main/README.md"></miorian-post>
+  </div>
+  <div class="muted">mode=read + file 远程 .md → 自动 fetch + MD→HTML 渲染</div>
 </div>
 
 <div class="sec d2">
-  <h2>Post &middot; 编辑模式</h2>
-  <miorian-post theme="dark" mode="edit" width="80%" padding="none" shadowlevel="1"
-    file="https://raw.githubusercontent.com/qwellop6/MioRian-Component/main/README.md"
-    style="max-width:800px;margin:0 auto;"></miorian-post>
-  <div class="muted">mode="edit" + file → fetch 后进入 textarea 编辑，点击保存回写原地址</div>
-</div>
-
-<div class="sec">
-  <h2>Post &middot; 新建模式</h2>
-  <miorian-post theme="light" mode="write" width="80%" padding="none" shadowlevel="2"
-    src="/api/posts/new-post.md"
-    style="max-width:800px;margin:0 auto;"></miorian-post>
-  <div class="muted">mode="write" + src="保存地址" → 空白编辑器，写完后保存到 src</div>
-</div>
-
-<!-- ═══════════════ Heading 组件 ═══════════════ -->
-
-<div class="sec d2">
-  <h2>Heading &middot; 标题 + 装饰线</h2>
-  <div class="col" style="gap:24px">
-    <miorian-heading level="h1" underline underline-color="#6366f1" underline-thickness="4px">
-      H1 下划线（4px 实线）
-    </miorian-heading>
-    <miorian-heading level="h2" underline underline-style="wavy" underline-color="#f59e0b">
-      H2 波浪下划线
-    </miorian-heading>
-    <miorian-heading level="h3" underline underline-style="dashed" underline-color="#22c55e" underline-thickness="3px">
-      H3 虚线下划线（3px）
-    </miorian-heading>
-    <miorian-heading level="h2" line-through line-color="#e24b4a" line-thickness="3px">
-      H2 删除线（红色 3px）
-    </miorian-heading>
-    <miorian-heading level="h3" underline underline-color="#6366f1" line-through line-color="#e24b4a" line-thickness="2px">
-      H3 下划线 + 删除线（独立颜色）
-    </miorian-heading>
+  <h2>Post · 编辑模式 / 新建模式</h2>
+  <div class="col" style="gap:20px;width:100%;max-width:800px">
+    <miorian-post theme="dark" mode="edit" width="100%" padding="none" shadowlevel="1"
+      file="https://raw.githubusercontent.com/qwellop6/MioRian-Component/main/README.md"></miorian-post>
+    <miorian-post theme="light" mode="write" width="100%" padding="none" shadowlevel="2"
+      src="/api/posts/new-post.md"></miorian-post>
   </div>
-  <div class="muted">underline-style: solid / dashed / dotted / wavy | 可自由开关 + 独立颜色+粗细</div>
-</div>
-
-<div class="sec">
-  <h2>Heading &middot; 文字对齐 + 圆润装饰线</h2>
-  <div class="col" style="gap:24px">
-    <miorian-heading level="h2" text-align="center" underline
-      underline-color="#6366f1" underline-style="wavy">
-      居中 · 波浪下划线
-    </miorian-heading>
-    <miorian-heading level="h2" text-align="right" underline
-      underline-color="#22c55e" underline-thickness="3px">
-      右对齐 · 实线下划线
-    </miorian-heading>
-    <miorian-heading level="h2" text-align="center" underline
-      underline-color="#f59e0b" underline-radius="8px" underline-thickness="4px">
-      居中 · 8px 圆润下划线
-    </miorian-heading>
-    <miorian-heading level="h2" text-align="center"
-      underline underline-color="#6366f1" underline-radius="6px" underline-thickness="3px"
-      line-through line-color="#e24b4a" line-radius="4px" line-thickness="2px">
-      双线圆润（蓝下划6px + 红删除4px）
-    </miorian-heading>
-  </div>
-  <div class="muted">text-align: left / center / right | underline-radius / line-radius 可自由调节 px</div>
-</div>
-  <div class="col" style="gap:20px">
-    <miorian-heading level="h1" font-family="Georgia,serif" font-size="3rem" color="#6366f1"
-      underline underline-color="#6366f1" underline-style="wavy">
-      衬线字体 · 波浪线
-    </miorian-heading>
-    <miorian-heading level="h2" font-weight="300" letter-spacing="0.15em" color="#666"
-      underline underline-style="dotted" underline-color="#999">
-      LIGHT WEIGHT · 点线下划线
-    </miorian-heading>
-    <miorian-heading level="h3" font-style="italic" font-weight="600" color="#333">
-      斜体加粗 · 无装饰线
-    </miorian-heading>
-  </div>
-  <div class="muted">font-family / font-size / font-weight / font-style / letter-spacing / color</div>
+  <div class="muted">mode=edit 回写原址 · mode=write 保存到 src</div>
 </div>
 
 <!-- ── 脚本 ── -->
-<!-- ═══════════════ ArticleCard 组件 ═══════════════ -->
-
-<div class="sec d2">
-  <h2>ArticleCard &middot; 封面左 / 封面右 / 无封面</h2>
-  <div class="col" style="gap:24px;width:100%;max-width:800px">
-    <miorian-article-card theme="dark" width="100%" shadowlevel="2"
-      cover="https://uapis.cn/api/v1/random/image?category=acg&type=pc"
-      title="封面左对齐（默认）" title-font-weight="700" title-font-size="1.3rem"
-      desc="封面在左侧，标题和简介在右侧。cover-align 默认 left。"
-      desc-font-size="0.9rem">
-    </miorian-article-card>
-    <miorian-article-card theme="dark" width="100%" shadowlevel="2" cover-align="right"
-      cover="https://uapis.cn/api/v1/random/image?category=acg&type=pc"
-      cover-width="30%" title="封面右对齐" title-font-weight="700" title-color="#00e5ff"
-      desc="cover-align=&quot;right&quot; 封面移到右侧，文字移到左侧。"
-      desc-color="rgba(255,255,255,.7)">
-    </miorian-article-card>
-    <miorian-article-card theme="dark" width="100%" shadowlevel="2"
-      title="纯文本卡片（无封面）"
-      title-font-weight="600"
-      desc="不设 cover 时纯文字排版，标题在上简介在下。继承全套 Heading font 属性。">
-    </miorian-article-card>
-  </div>
-  <div class="muted">cover / cover-align / cover-width | 标题和简介各继承全套 font 属性</div>
-</div>
-
 <script src="BaseProps.js"></script>
 <script src="Block.js"></script>
 <script src="Input.js"></script>
@@ -466,5 +332,6 @@
 <script src="Post.js"></script>
 <script src="Heading.js"></script>
 <script src="ArticleCard.js"></script>
+<script src="BtnLink.js"></script>
 </body>
 </html>

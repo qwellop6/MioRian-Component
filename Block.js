@@ -6,53 +6,45 @@ function fxRandom(seed) {
   return () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
 }
 
-/* 樱花背景 */
-function buildSakuraBg(density, size) {
-  const counts = { sparse: 14, normal: 28, dense: 48 };
+/* 樱花背景（单 tile，配合 background-repeat 无缝平铺） */
+function buildSakuraBg(count, size) {
   const sizes  = {
     sm: [[4,5],[5,6],[3,4]],
     md: [[6,8],[4,6],[7,9]],
     lg: [[10,13],[8,10],[12,15]]
   };
   const colors = ['#ffb7c5','#ff9eaf','#ffcfd8','#ffaabb','#fec7d7'];
-  const n = counts[density] || 28;
   const sz = sizes[size] || sizes.md;
-  const rng = fxRandom(n * 137 + (size === 'sm' ? 1 : size === 'lg' ? 3 : 2));
+  const rng = fxRandom(count * 137 + (size === 'sm' ? 1 : size === 'lg' ? 3 : 2));
   const parts = [];
-  for (let half = 0; half < 2; half++) {
-    for (let i = 0; i < n; i++) {
-      const x = (rng() * 94 + 3).toFixed(1);
-      const yOff = half * 50 + (rng() * 46 + 2);
-      const pair = sz[Math.floor(rng() * sz.length)];
-      const sx = (pair[0] + rng() * 2).toFixed(1);
-      const sy = (pair[1] + rng() * 2).toFixed(1);
-      const c = colors[Math.floor(rng() * colors.length)];
-      parts.push(`radial-gradient(ellipse ${sx}px ${sy}px at ${x}% ${yOff.toFixed(1)}%, ${c} 50%,transparent 50%)`);
-    }
+  for (let i = 0; i < count; i++) {
+    const x = (rng() * 100).toFixed(1);
+    const y = (rng() * 100).toFixed(1);
+    const pair = sz[Math.floor(rng() * sz.length)];
+    const sx = (pair[0] + rng() * 2).toFixed(1);
+    const sy = (pair[1] + rng() * 2).toFixed(1);
+    const c = colors[Math.floor(rng() * colors.length)];
+    parts.push(`radial-gradient(ellipse ${sx}px ${sy}px at ${x}% ${y}%, ${c} 50%,transparent 50%)`);
   }
   return parts.join(',');
 }
 
-/* 雪花背景 */
-function buildSnowBg(density, size) {
-  const counts = { sparse: 12, normal: 24, dense: 42 };
+/* 雪花背景（单 tile，无缝平铺） */
+function buildSnowBg(count, size) {
   const sizes  = {
     sm: [2,2.5,1.5],
     md: [4,5,3],
     lg: [6,7,5]
   };
-  const n = counts[density] || 24;
   const sz = sizes[size] || sizes.md;
-  const rng = fxRandom(n * 251 + (size === 'sm' ? 7 : size === 'lg' ? 13 : 11));
+  const rng = fxRandom(count * 251 + (size === 'sm' ? 7 : size === 'lg' ? 13 : 11));
   const parts = [];
-  for (let half = 0; half < 2; half++) {
-    for (let i = 0; i < n; i++) {
-      const x = (rng() * 94 + 3).toFixed(1);
-      const yOff = half * 50 + (rng() * 46 + 2);
-      const r = (sz[0] + (sz[1] - sz[0]) * rng()).toFixed(1);
-      const a = (0.6 + rng() * 0.4).toFixed(1);
-      parts.push(`radial-gradient(${r}px ${r}px at ${x}% ${yOff.toFixed(1)}%, rgba(255,255,255,${a}) 50%,transparent 50%)`);
-    }
+  for (let i = 0; i < count; i++) {
+    const x = (rng() * 100).toFixed(1);
+    const y = (rng() * 100).toFixed(1);
+    const r = (sz[0] + (sz[1] - sz[0]) * rng()).toFixed(1);
+    const a = (0.6 + rng() * 0.4).toFixed(1);
+    parts.push(`radial-gradient(${r}px ${r}px at ${x}% ${y}%, rgba(255,255,255,${a}) 50%,transparent 50%)`);
   }
   return parts.join(',');
 }
@@ -95,15 +87,27 @@ class Block extends HTMLElement {
     s.setProperty('--bg-rp',  bgRepeat ? 'repeat' : 'no-repeat');
     if (glass) s.setProperty('--glass-blur', glassBlur);
 
-    /* 特效背景生成 */
-    if (bgEffect === 'sakura') s.setProperty('--fx-sakura-bg', buildSakuraBg(fxDensity, fxSize));
-    if (bgEffect === 'snow')   s.setProperty('--fx-snow-bg',   buildSnowBg(fxDensity, fxSize));
-
-    /* 飘落角度 */
+    /* 特效背景生成（单 tile + 无缝平铺；元素加宽避免水平漂移露边） */
     if (bgEffect === 'sakura' || bgEffect === 'snow') {
       const rad = fxAngle * Math.PI / 180;
       const dx  = Math.round(Math.tan(rad) * -50);
-      s.setProperty('--fx-dx', dx + '%');
+      const d   = Math.abs(dx);                    // 水平漂移量（帧宽 %）
+      const W   = 100 + d;                         // 元素宽度（帧宽 %）
+      /* translateX / tile 宽都换算成「元素自身」的百分比 */
+      const dxElem   = d >= 1 ? -(d / W * 100) : 0;
+      const tileElem = d >= 1 ? (d / W * 100) : 100;
+      s.setProperty('--fx-dx', dxElem.toFixed(2) + '%');
+      s.setProperty('--fx-tile-w', tileElem.toFixed(2) + '%');
+      s.setProperty('--fx-w', `calc(100% + ${d}%)`);
+
+      const base     = { sparse: 14, normal: 28, dense: 48 };
+      const baseSnow = { sparse: 12, normal: 24, dense: 42 };
+      const bn = (bgEffect === 'sakura' ? base : baseSnow)[fxDensity] || (bgEffect === 'sakura' ? 28 : 24);
+      const tileWFrame = d >= 1 ? d : 100;
+      const count = Math.max(6, Math.round(bn * tileWFrame / 100));
+
+      if (bgEffect === 'sakura') s.setProperty('--fx-sakura-bg', buildSakuraBg(count, fxSize));
+      if (bgEffect === 'snow')   s.setProperty('--fx-snow-bg',   buildSnowBg(count, fxSize));
     }
 
     /* ── 构建 DOM ── */
@@ -169,16 +173,20 @@ const BLOCK_CSS = `
 .frame.eff-snow{overflow:hidden}
 
 .eff-sakura::before{
-  content:'';position:absolute;top:0;left:0;width:100%;height:200%;
+  content:'';position:absolute;top:0;left:0;width:var(--fx-w,100%);height:200%;
   background-image:var(--fx-sakura-bg,none);
+  background-size:var(--fx-tile-w,100%) 50%;
+  background-repeat:repeat;
   animation:sakuraFall 10s linear infinite;
   pointer-events:none;z-index:3;
 }
 @keyframes sakuraFall{0%{transform:translate(var(--fx-dx,-50%),-50%)}100%{transform:translate(0,0)}}
 
 .eff-snow::before{
-  content:'';position:absolute;top:0;left:0;width:100%;height:200%;
+  content:'';position:absolute;top:0;left:0;width:var(--fx-w,100%);height:200%;
   background-image:var(--fx-snow-bg,none);
+  background-size:var(--fx-tile-w,100%) 50%;
+  background-repeat:repeat;
   animation:snowFall 14s linear infinite;
   pointer-events:none;z-index:3;
 }

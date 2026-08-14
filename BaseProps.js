@@ -39,6 +39,15 @@ const BaseProps = (() => {
     const bordercolor = el.getAttribute('bordercolor');
     const backcolor   = el.getAttribute('backcolor');
 
+    /* ── 字体全家桶 ── */
+    const color      = el.getAttribute('color')      || '';
+    const fontFam    = el.getAttribute('font-family')    || '';
+    const fontSize   = el.getAttribute('font-size')      || '';
+    const fontWeight = el.getAttribute('font-weight')    || '';
+    const fontStyle  = el.getAttribute('font-style')     || '';
+    const letterSp   = el.getAttribute('letter-spacing') || '';
+    const textAlign  = el.getAttribute('text-align')     || '';
+
     /* ── 动效 ── */
     const anim  = el.getAttribute('anim')  || 'none';
     const hover = el.getAttribute('hover') || 'none';
@@ -62,6 +71,15 @@ const BaseProps = (() => {
     }
     if (bordercolor) s.setProperty('--ov-bd', bordercolor);
     if (backcolor)   s.setProperty('--ov-bg', backcolor);
+
+    /* 字体变量（组件通过 var(--bp-font,inherit) 等方式引用） */
+    if (color)      s.setProperty('--bp-color', color);
+    if (fontFam)    s.setProperty('--bp-font',   fontFam);
+    if (fontSize)   s.setProperty('--bp-size',   fontSize);
+    if (fontWeight) s.setProperty('--bp-weight', fontWeight);
+    if (fontStyle)  s.setProperty('--bp-style',  fontStyle);
+    if (letterSp)   s.setProperty('--bp-lsp',    letterSp);
+    if (textAlign)  s.setProperty('--bp-align',  textAlign);
 
     /* ── 组装 CSS 类名列表 ── */
     const classList = [

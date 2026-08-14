@@ -1,37 +1,44 @@
 # MioRian Component
 
-一款基于 **Web Components（Shadow DOM）** 的高度自定义 **（Web-UI）- 组件库** ；高效、简洁、无依赖。
+基于 **Web Components（Shadow DOM）** 的纯原生 UI 组件库。零依赖、无构建工具、无需任何第三方框架，直接以自定义 HTML 标签使用，兼容所有现代浏览器。
 
 ---
 
-## 目录
+## 组件一览
 
-- [快速开始](#快速开始)
-- [通用属性系统](#通用属性系统)
-- [主题系统](#主题系统)
-- [组件列表](#组件列表)
-  - [miorian-block](#miorian-block) · 布局容器
-  - [miorian-input](#miorian-input) · 输入/展示组件
-  - [miorian-avatar](#miorian-avatar) · 头像
-  - [miorian-social](#miorian-social) · 社交链接
-  - [miorian-heading](#miorian-heading) · 标题
-  - [miorian-article-card](#miorian-article-card) · 文章卡片
-  - [miorian-post](#miorian-post) · 文章/MD编辑器
+| 标签 | 说明 |
+|------|------|
+| `<miorian-block>` | 布局容器（Flex + 毛玻璃 + 背景图 + 樱花/雪花特效） |
+| `<miorian-input>` | 输入 / 展示 / 密码 三合一组件（含打字机、API 接入） |
+| `<miorian-avatar>` | 圆形头像（圆环/波浪环 + 悬停旋转） |
+| `<miorian-social>` | 社交链接图标（点击跳转） |
+| `<miorian-heading>` | 自定义标题（全套字体 + 下划线/删除线） |
+| `<miorian-article-card>` | 文章卡片（封面 + 标题 + 简介 + 跳转） |
+| `<miorian-btnlink>` | 钮链（按钮 / 链接双模式） |
+| `<miorian-post>` | 文章 / Markdown 编辑器（读/编辑/新建三模式） |
 
 ---
 
 ## 快速开始
 
 ```html
-<script src="BaseProps.js"></script>  <!-- 必须在所有组件之前 -->
+<!-- BaseProps 必须最先加载 -->
+<script src="BaseProps.js"></script>
 <script src="Block.js"></script>
 <script src="Input.js"></script>
 <script src="Avatar.js"></script>
 <script src="Social.js"></script>
 <script src="Heading.js"></script>
 <script src="ArticleCard.js"></script>
+<script src="BtnLink.js"></script>
 <script src="Post.js"></script>
+
+<miorian-block theme="light" padding="md">
+  <miorian-avatar src="avatar.jpg" size="lg" border="ring"></miorian-avatar>
+</miorian-block>
 ```
+
+> **注意**：`BaseProps.js` 必须在所有组件之前引入，否则其他组件会报 `BaseProps is not defined`。
 
 ---
 
@@ -41,71 +48,75 @@
 
 ### 尺寸 / 圆角 / 内边距
 
-| 属性 | 默认值 | 可选值 |
-|------|--------|--------|
-| `width` | `100%` | CSS 值（部分组件自动覆写为 `auto`） |
-| `height` | `auto` | CSS 值 |
-| `Borad` | `12` | 数字（px） |
+| 属性 | 默认值 | 说明 |
+|------|--------|------|
+| `width` | `100%`* | CSS 值，如 `400px`、`50vw` |
+| `height` | `auto` | CSS 值，如 `100vh` |
+| `Borad` | `12` | 圆角半径（px） |
 | `padding` | `md` | `none` / `sm` / `md` / `lg` / `xl` |
+
+> *内联型组件（Avatar / Social / Heading / BtnLink / ArticleCard）默认收窄为内容宽；设置 `width` 属性即可覆盖。
 
 ### Flex 布局（Block 等容器组件）
 
-| 属性 | 默认值 | 说明 |
-|------|--------|------|
+| 属性 | 默认值 | 可选值 |
+|------|--------|--------|
 | `direction` | `row` | `row` / `col` / `row-reverse` / `col-reverse` |
 | `justify` | `start` | `start` / `center` / `end` / `between` / `around` / `evenly` |
 | `align` | `stretch` | `start` / `center` / `end` / `stretch` / `baseline` |
-| `gap` | `0` | CSS 值，必须带单位（如 `12px`） |
-| `wrap` | 布尔 | 存在即换行 |
+| `gap` | `0` | CSS 值（必须带单位，如 `12px`） |
+| `wrap` | — | 布尔，存在即换行 |
 
-### 视觉 / 显隐
+> `direction="col"` 时主轴变为垂直，`justify` 与 `align` 的作用互换。
 
-| 属性 | 类型 | 说明 |
-|------|------|------|
-| `shadowlevel` | 数字 | 阴影等级，`0` 无阴影 |
-| `glow` | 布尔 | accent 色外发光 |
-| `bordercolor` | 颜色 | 自定义边框色 |
-| `backcolor` | 颜色 | 自定义背景色 |
-| `no-background` | 布尔 | 隐藏背景 |
-| `no-border` | 布尔 | 隐藏边框 |
+### 字体全家桶
 
-### 动效
+| 属性 | CSS 变量 | 说明 |
+|------|----------|------|
+| `color` | `--bp-color` | 文字颜色 |
+| `font-family` | `--bp-font` | 字体族，如 `楷体`、`Georgia, serif` |
+| `font-size` | `--bp-size` | 字号 |
+| `font-weight` | `--bp-weight` | 字重 |
+| `font-style` | `--bp-style` | `italic` 等 |
+| `letter-spacing` | `--bp-lsp` | 字间距 |
+| `text-align` | `--bp-align` | `left` / `center` / `right` |
 
-| 属性 | 默认值 | 可选值 |
-|------|--------|--------|
-| `anim` | `none` | `fade-in` / `slide-up/down/left/right` / `pop` / `bounce` / `shake` / `pulse` / `spin` |
-| `hover` | `none` | `lift` / `glow-pulse` |
+### 视觉 / 显隐 / 偏移
 
-### 自动刷新
+| 属性 | 说明 |
+|------|------|
+| `shadowlevel` | 阴影等级（乘数），`0` 无阴影 |
+| `glow` | accent 色外发光 |
+| `bordercolor` / `backcolor` | 自定义边框色 / 背景色 |
+| `no-background` / `no-border` | 隐藏背景 / 边框 |
+| `offset-x` / `offset-y` | 微调偏移（仅显式设置时生效） |
+
+### 动效 / 自动刷新
 
 | 属性 | 默认值 | 说明 |
 |------|--------|------|
-| `refresh` | — | 自动刷新间隔（秒），如 `refresh="10"`。接入组件会周期性更新数据，配合 Input 打字机可实现平滑退场→拉取→进场过渡 |
+| `anim` | `none` | `fade-in` / `slide-up/down/left/right` / `pop` / `bounce` / `shake` / `pulse` / `spin` |
+| `hover` | `none` | `lift` / `glow-pulse` |
+| `refresh` | — | 自动刷新间隔（秒），如 `refresh="10"` |
 
 ---
 
 ## 主题系统
 
-6 套内置主题，`theme` 属性切换，默认 `light`。
+6 套内置主题，`theme` 属性切换，默认 `light`。强调色 `accent` 统一控制（默认 `#6c5ce7`）。
 
 | 值 | 背景 | 文字 | 适用 |
 |----|------|------|------|
 | `light` | `#fff` | `#1a1a2e` | 亮色页面 |
 | `dark` | `#1a1a2e` | `#f0f0f0` | 深色面板 |
-| `neon` | `#0d0221` | `#f0f0ff` | 科技/炫酷 |
+| `neon` | `#0d0221` | `#f0f0ff` | 科技 / 炫酷 |
 | `glass` | 半透明磨砂 | `#fff` | 背景图上叠加 |
-| `paper` | `#fdfbf7` | `#3e2c1c` | 阅读/笔记 |
+| `paper` | `#fdfbf7` | `#3e2c1c` | 阅读 / 笔记 |
 | `gradient` | 紫蓝渐变 | `#fff` | 活力氛围 |
-
-强调色 `accent` 统一控制（默认 `#6c5ce7`）。
 
 ---
 
-## 组件列表
-
-### miorian-block
-
-布局容器。Flex + 毛玻璃 + 背景图 + 樱花/雪花特效。
+## miorian-block · 布局容器
 
 **专属属性：**
 
@@ -114,124 +125,86 @@
 | `glass` | — | 毛玻璃蒙层 |
 | `glass-blur` | `8px` | 模糊程度 |
 | `bg-image` | — | 背景图 URL |
-| `bg-size` | `cover` | 尺寸模式 |
-| `bg-position` | `center` | 定位 |
+| `bg-size` / `bg-position` | `cover` / `center` | 尺寸 / 定位 |
 | `bg-repeat` | — | 平铺 |
 | `bg-effect` | `none` | `sakura` / `snow` |
 | `fx-density` | `normal` | `sparse` / `normal` / `dense` |
 | `fx-size` | `md` | `sm` / `md` / `lg` |
-| `fx-angle` | `45` | 飘落角度 0~360 |
+| `fx-angle` | `45` | 飘落角度 0~360（0 为垂直下落） |
 
 ```html
 <miorian-block width="100%" height="100vh"
   bg-image="bg.jpg" glass glass-blur="6.5px"
-  bg-effect="snow" fx-density="dense"
+  bg-effect="snow" fx-density="dense" fx-angle="45"
   direction="col" justify="center" align="center">
-  <miorian-avatar src="avatar.jpg" size="lg"></miorian-avatar>
+  内容
 </miorian-block>
 ```
 
 ---
 
-### miorian-input
-
-三合一：展示框 / 输入框 / 密码框。
+## miorian-input · 输入/展示组件
 
 | 属性 | 默认值 | 说明 |
 |------|--------|------|
 | `mode` | `input` | `input` / `display` / `password` |
 | `type` | `text` | HTML input type |
-| `value` | — | 初始值/展示文字 |
-| `placeholder` | — | 占位提示 |
-| `label` | — | 标签 |
-| `icon` | — | Unicode/Emoji 图标 |
-| `size` | `md` | `sm` / `md` / `lg` |
-| `disabled` | — | 禁用 |
-| `invalid` | — | 错误态 |
-| `message` | — | 辅助/错误信息 |
-| `text-align` | `left` | `left` / `center` / `right`（display 模式） |
+| `value` / `placeholder` | — | 初始值 / 占位提示 |
+| `label` / `icon` / `size` | — / — / `md` | 标签 / 图标 / 尺寸 |
+| `disabled` / `invalid` / `message` | — | 状态 |
+| `text-align` | `left` | 展示框文字对齐 |
 | `api` | — | API URL，自动 fetch 展示 |
-| `typewriter` | — | 打字机特效 |
-| `typewriter-speed` | `80` | ms/字 |
+| `typewriter` / `typewriter-speed` | — / `80` | 打字机 / 速度（ms/字） |
 | `show-password` | — | 密码明文切换 |
-
-> **平滑刷新：** 设 `refresh="10"` 后，每 10 秒自动拉取最新数据，旧文字先逐字退格消退（30ms/字），再逐字打出新内容，无「加载中」闪烁。
+| `refresh` | — | 自动刷新（秒），配合打字机做平滑退格→拉取→进场 |
 
 ```html
 <miorian-input mode="display"
   api="https://v1.hitokoto.cn/?encode=text"
-  typewriter typewriter-speed="80" text-align="center">
+  typewriter typewriter-speed="80" text-align="center"
+  refresh="10" width="35vw" no-background no-border>
 </miorian-input>
-
-<miorian-input mode="password" label="密码" show-password></miorian-input>
 ```
 
-**JS API：** `element.value`、`element.native`、`change` 事件。
+**JS API**：`element.value`、`element.native`、`change` 事件。
 
 ---
 
-### miorian-avatar
-
-圆形头像。悬停旋转 + 圆环/波浪环边框。
+## miorian-avatar · 头像
 
 | 属性 | 默认值 | 说明 |
 |------|--------|------|
-| `src` | — | 图片 URL |
-| `alt` | `avatar` | 替代文本 |
-| `size` | `md` | `sm`(38) / `md`(62) / `lg`(94) / `xl`(136) / 自定义如 `28px` |
-| `border` | `none` | `ring`（实心）/ `wave`（虚线波浪自动旋转） |
+| `src` / `alt` | — / `avatar` | 图片 / 替代文本 |
+| `size` | `md` | `sm`(38) / `md`(62) / `lg`(94) / `xl`(136) / 自定义 `28px` |
+| `border` | `none` | `ring`（实心圆环）/ `wave`（虚线波浪，自动旋转） |
 | `rotate` | — | 悬停旋转 360° |
 
-```html
-<miorian-avatar src="avatar.jpg" size="lg"
-  border="wave" rotate accent="#6366f1"></miorian-avatar>
-```
-
 ---
 
-### miorian-social
-
-社交链接图标。内嵌 `<a>`，点击跳转。
+## miorian-social · 社交链接
 
 | 属性 | 默认值 | 说明 |
 |------|--------|------|
-| `src` | — | 图标 URL |
-| `href` | `#` | 跳转链接 |
-| `target` | `_blank` | 打开方式 |
+| `src` / `alt` | — | 图标 / 替代文本 |
+| `href` / `target` | `#` / `_blank` | 跳转链接 / 打开方式 |
 | `size` | `md` | 同 Avatar |
 | `border` | `none` | `ring` / `wave` |
 
-```html
-<miorian-social
-  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"
-  href="https://github.com/you" size="24px"></miorian-social>
-```
+**常用图标 CDN**（Simple Icons）：`https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/<name>.svg`
 
-**常用图标 CDN：**
-
-| 平台 | URL |
-|------|-----|
-| GitHub | `devicons/devicon@latest/icons/github/github-original.svg` |
-| QQ | `simple-icons@latest/icons/tencentqq.svg` |
-| Bilibili | `simple-icons@latest/icons/bilibili.svg` |
-| 网易云 | `simple-icons@latest/icons/neteasecloudmusic.svg` |
-| 邮箱 | `simple-icons@latest/icons/maildotru.svg` |
+| 平台 | name |
+|------|------|
+| GitHub | `github`（或 Devicon `devicon@latest/icons/github/github-original.svg`） |
+| QQ | `tencentqq` |
+| Bilibili | `bilibili` |
+| 网易云音乐 | `neteasecloudmusic` |
+| 邮箱 | `maildotru` |
 
 ---
 
-### miorian-heading
+## miorian-heading · 标题
 
-自定义标题。全套字体 + 下划线/删除线 + 文本对齐 + 圆润装饰线。
-
-**文字属性：**
-
-| 属性 | 说明 |
-|------|------|
-| `level` | `h1`~`h6`，默认 `h2` |
-| `color` | 文字颜色 |
-| `font-family` / `font-size` / `font-weight` / `font-style` | 字体全套 |
-| `letter-spacing` | 字间距 |
-| `text-align` | `left` / `center` / `right` |
+**文字**：`level`（`h1`~`h6`，默认 `h2`）+ 字体全家桶。
 
 **下划线：**
 
@@ -241,131 +214,77 @@
 | `underline-color` | accent | 颜色 |
 | `underline-style` | `solid` | `solid` / `dashed` / `dotted` / `wavy` |
 | `underline-thickness` | `2px` | 粗细 |
-| `underline-radius` | — | 圆润度（px），启用后背景渲染 |
+| `underline-radius` | — | 圆润度（px），背景渲染胶囊形 |
 
-**删除线：**
-
-| 属性 | 默认值 | 说明 |
-|------|--------|------|
-| `line-through` | — | 开关 |
-| `line-color` | accent | 颜色 |
-| `line-thickness` | `2px` | 粗细 |
-| `line-radius` | — | 圆润度（px） |
+**删除线**：`line-through` / `line-color` / `line-thickness` / `line-radius`（同上下划线）。
 
 ```html
 <miorian-heading level="h1" font-size="2rem" font-weight="900"
-  underline underline-color="#6366f1" underline-style="wavy"
-  text-align="center">
+  underline underline-color="#6366f1" underline-style="wavy" text-align="center">
   居中波浪线标题
 </miorian-heading>
 ```
 
 ---
 
-### miorian-article-card
-
-文章卡片。封面图 + 标题 + 简介 + 点击跳转。
+## miorian-article-card · 文章卡片
 
 | 分类 | 属性 | 说明 |
 |------|------|------|
-| 封面 | `cover` | 图片 URL（可选） |
-| | `cover-align` | `left`（默认）/ `right` |
-| | `cover-width` | 封面宽度，默认 `35%` |
-| | `cover-height` | 封面高度，默认 `auto` |
-| | `cover-radius` | 封面圆角，如 `10px` |
-| 标题 | `title` | 标题文本 |
-| | `title-color` / `title-font-family` / `title-font-size` / `title-font-weight` / `title-font-style` / `title-letter-spacing` / `title-align` | 继承 Heading 字体全套 |
-| 简介 | `desc` | 简介文本 |
-| | `desc-color` / `desc-font-family` / `desc-font-size` / `desc-font-weight` / `desc-font-style` / `desc-letter-spacing` / `desc-align` | 同上 |
+| 封面 | `cover` / `cover-align` / `cover-width` / `cover-height` / `cover-radius` | 图片 / `left`(默认)·`right` / 宽度 / 高度 / 圆角 |
+| 标题 | `title` + `title-*` 字体属性 | 标题文本 + 独立字体 |
+| 简介 | `desc` + `desc-*` 字体属性 | 简介文本 + 独立字体 |
 | 链接 | `href` | 文章链接，设后整卡可点击 |
-| | `hover` | `lift`（悬停悬浮+放大+阴影） |
+| 悬停 | `hover` | `lift`（悬浮放大 + 阴影） |
 | 间距 | `gap` | 封面与文字区间距 |
 
 ```html
 <miorian-article-card theme="dark"
   cover="cover.jpg" cover-radius="12px" cover-width="30%"
   title="文章标题" title-font-weight="700"
-  desc="一段简介文字"
-  href="https://example.com/post/1"
-  hover="lift" gap="20px">
+  desc="简介文字" href="post.html" hover="lift" gap="20px">
 </miorian-article-card>
 ```
 
 ---
 
-### miorian-post
+## miorian-btnlink · 钮链
 
-文章/MD 编辑器。三模式：只读 / 编辑 / 新建。
+| 模式 | `mode` | 外观 | 悬停 |
+|------|--------|------|------|
+| 按钮 | `button`（默认） | 实心 accent + 边框 | `hover="lift"` 上浮放大 |
+| 链接 | `link` | 无边框透明 | `hover-color` 启用变色 |
+
+**共用**：`href` / `target` + 字体全家桶 + `text-align`。
+
+**按钮专属**：`hover="lift"`、`border-width`（默认 `2px`）。
+
+**链接专属**：`hover-color`、`underline`（悬停下划线动效）、`underline-color`、`underline-dir`（`left` / `right` / `center`）。
+
+```html
+<miorian-btnlink mode="button" href="#" hover="lift" border-width="3px">按钮</miorian-btnlink>
+<miorian-btnlink mode="link" href="#" underline underline-dir="center" underline-color="#e24b4a">链接</miorian-btnlink>
+```
+
+---
+
+## miorian-post · 文章/MD 编辑器
 
 | 属性 | 说明 |
 |------|------|
 | `mode` | `read`（默认）/ `edit` / `write` |
-| `file` | 导入地址（edit/read 模式的加载来源） |
-| `src` | 保存地址（write 模式的目标 / edit 可选覆盖） |
+| `file` | 导入地址（edit/read 的加载来源） |
+| `src` | 保存地址（write 目标 / edit 可选覆盖） |
+| `refresh` | 自动刷新（秒），仅 read 模式 |
 
-| 模式 | 需要 | 界面 | 保存 | 刷新 |
-|------|------|------|------|------|
-| `read` | `file` | Prose 渲染 | — | 支持 `refresh` 自动重拉 |
-| `edit` | `file` | textarea + 预览/保存 | 回写 `file` | — |
-| `write` | `src` | 空白 textarea + 预览/保存 | 存到 `src` | — |
+| 模式 | 需要 | 界面 | 保存 |
+|------|------|------|------|
+| `read` | `file` | Prose 渲染 | — |
+| `edit` | `file` | textarea + 预览/保存 | 回写 `file` |
+| `write` | `src` | 空白 textarea + 预览/保存 | 存到 `src` |
 
-内置轻量 MD 解析器（标题/粗体/斜体/链接/图片/代码块/列表/引用/分割线/表格）。
-
-```html
-<miorian-post mode="read" theme="light"
-  file="https://raw.githubusercontent.com/qwellop6/MioRian-Component/main/README.md">
-</miorian-post>
-```
-
-**CSS 自定义属性：** `--post-max-width`（默认 65ch）、`--post-font-size`、`--post-line-height`。
+内置轻量 MD 解析器（标题/粗体/斜体/链接/图片/代码块/列表/引用/分割线）。CSS 自定义属性：`--post-max-width`（默认 65ch）、`--post-font-size`、`--post-line-height`。
 
 ---
 
-## 完整页面示例
-
-```html
-<!DOCTYPE html>
-<html lang="zh">
-<head><meta charset="UTF-8"></head>
-<body>
-
-<script src="MioRian-Component/BaseProps.js"></script>
-<script src="MioRian-Component/Block.js"></script>
-<script src="MioRian-Component/Input.js"></script>
-<script src="MioRian-Component/Avatar.js"></script>
-<script src="MioRian-Component/Social.js"></script>
-<script src="MioRian-Component/Heading.js"></script>
-<script src="MioRian-Component/ArticleCard.js"></script>
-<script src="MioRian-Component/Post.js"></script>
-
-<!-- 第一屏：头像 + 社交 + 一言 -->
-<miorian-block width="100%" height="100vh"
-  bg-image="bg.jpg" glass glass-blur="6.5px"
-  bg-effect="snow" fx-density="dense"
-  direction="row" justify="center" align="center">
-
-  <miorian-block width="40vw" no-background no-border
-    direction="col" align="center" gap="20px">
-    <miorian-avatar src="avatar.jpg" size="lg" border="ring" rotate></miorian-avatar>
-
-    <miorian-block direction="row" gap="16px" no-background no-border>
-      <miorian-social href="https://github.com/you"
-        src="...github.svg" size="24px"></miorian-social>
-      <miorian-social href="mailto:you@qq.com"
-        src="...mail.svg" size="24px"></miorian-social>
-    </miorian-block>
-
-    <miorian-input mode="display"
-      api="https://v1.hitokoto.cn/?encode=text"
-      typewriter typewriter-speed="80" text-align="center"
-      width="35vw" no-background no-border></miorian-input>
-  </miorian-block>
-</miorian-block>
-
-</body>
-</html>
-```
-
----
-
-> **MioRian Component** · 2026-08-12 .
+> **MioRian Component** · 纯原生 Web Components · 零依赖 · 8 组件 · 2026-08-15
