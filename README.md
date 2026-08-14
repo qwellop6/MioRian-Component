@@ -287,4 +287,4 @@
 
 ---
 
-> **MioRian Component** · 纯原生 Web Components · 零依赖 · 8 组件 · 2026-08-15
+> **MioRian Component** · 2026.8.15 '
