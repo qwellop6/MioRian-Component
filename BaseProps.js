@@ -31,6 +31,9 @@ const BaseProps = (() => {
     const offsetX = el.getAttribute('offset-x');
     const offsetY = el.getAttribute('offset-y');
 
+    /* ── 图层层级（z-index，仅对已定位元素生效）── */
+    const layer = el.getAttribute('layer');
+
     /* ── 视觉 ── */
     const shadowL     = el.getAttribute('shadowlevel') || '1';
     const glow        = el.hasAttribute('glow');
@@ -69,6 +72,8 @@ const BaseProps = (() => {
       s.setProperty('--oy', offsetY || '0');
       s.setProperty('transform', `translate(${offsetX || '0'},${offsetY || '0'})`);
     }
+    /* 图层层级：设 z-index；仅对已定位元素（position 非 static）生效，static 元素按规范忽略 */
+    if (layer !== null && layer !== '') s.zIndex = layer;
     if (bordercolor) s.setProperty('--ov-bd', bordercolor);
     if (backcolor)   s.setProperty('--ov-bg', backcolor);
 
@@ -80,6 +85,41 @@ const BaseProps = (() => {
     if (fontStyle)  s.setProperty('--bp-style',  fontStyle);
     if (letterSp)   s.setProperty('--bp-lsp',    letterSp);
     if (textAlign)  s.setProperty('--bp-align',  textAlign);
+
+    /* ── 定位与自对齐（正交拆分：position 管脱离流，self-x/self-y 管对齐）── */
+    const position = el.getAttribute('position') || '';              // relative | absolute | fixed
+    const isPlaced = position === 'absolute' || position === 'fixed';
+    const selfX    = el.getAttribute('self-x') || '';
+    const selfY    = el.getAttribute('self-y') || '';
+
+    /* 显式定位模式（脱离文档流由用户显式声明） */
+    if (position === 'relative' || position === 'absolute' || position === 'fixed') {
+      s.position = position;
+    }
+
+    /* 水平对齐：普通元素用 margin auto；定位元素用 inset 定位 */
+    if (selfX === 'center') {
+      if (isPlaced) { s.left = '0'; s.right = '0'; }
+      s.marginLeft = 'auto'; s.marginRight = 'auto';
+    } else if (selfX === 'end') {
+      if (isPlaced) { s.right = '0'; }
+      else          { s.marginLeft = 'auto'; }
+    } else if (selfX === 'start') {
+      if (isPlaced) { s.left = '0'; }
+      else          { s.marginRight = 'auto'; }
+    }
+
+    /* 垂直对齐：普通元素用 margin auto（仅 flex/grid 父级生效）；定位元素用 inset 定位 */
+    if (selfY === 'center') {
+      if (isPlaced) { s.top = '0'; s.bottom = '0'; }
+      s.marginTop = 'auto'; s.marginBottom = 'auto';
+    } else if (selfY === 'end') {
+      if (isPlaced) { s.bottom = '0'; }
+      else          { s.marginTop = 'auto'; }
+    } else if (selfY === 'start') {
+      if (isPlaced) { s.top = '0'; }
+      else          { s.marginBottom = 'auto'; }
+    }
 
     /* ── 组装 CSS 类名列表 ── */
     const classList = [

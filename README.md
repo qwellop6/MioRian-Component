@@ -1,6 +1,6 @@
 # MioRian Component
 
-一款基于 **Web Components（Shadow DOM）** 的自定义 **Web UI 组件库** ；高效、简洁、无依赖。
+基于 **Web Components（Shadow DOM）** 的纯原生 UI 组件库。零依赖、无构建工具、无需任何第三方框架，直接以自定义 HTML 标签使用，兼容所有现代浏览器。
 
 ---
 
@@ -22,6 +22,26 @@
 
 ## 快速开始
 
+### 方式一：CDN 直接引用（推荐）
+
+```html
+<!-- BaseProps 必须最先加载 -->
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/BaseProps.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Block.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Input.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Avatar.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Social.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Heading.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/ArticleCard.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/BtnLink.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Post.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Dropdown.js"></script>
+```
+
+> `@main` 可换成 `@v1.0.0`（tag）或 `@提交哈希` 锁定版本。jsDelivr 有强缓存，发布新版本建议换版本号，或在 URL 后加 `?v=n` 强制刷新。
+
+### 方式二：本地 / 下载文件
+
 ```html
 <!-- BaseProps 必须最先加载 -->
 <script src="BaseProps.js"></script>
@@ -34,7 +54,9 @@
 <script src="BtnLink.js"></script>
 <script src="Post.js"></script>
 <script src="Dropdown.js"></script>
+```
 
+```html
 <miorian-block theme="light" padding="md">
   <miorian-avatar src="avatar.jpg" size="lg" border="ring"></miorian-avatar>
 </miorian-block>
@@ -92,6 +114,32 @@
 | `bordercolor` / `backcolor` | 自定义边框色 / 背景色 |
 | `no-background` / `no-border` | 隐藏背景 / 边框 |
 | `offset-x` / `offset-y` | 微调偏移（仅显式设置时生效） |
+
+### 定位与自对齐
+
+| 属性 | 值 | 说明 |
+|------|-----|------|
+| `position` | `relative` / `absolute` / `fixed` | 显式定位模式（absolute/fixed 脱离文档流） |
+| `self-x` | `start` / `center` / `end` | 水平对齐（普通元素 margin auto；定位元素用 left/right） |
+| `self-y` | `start` / `center` / `end` | 垂直对齐（普通元素 margin auto；定位元素用 top/bottom） |
+| `layer` | 数字 | 图层层级（z-index），仅对已定位元素（position 非 static）生效，数字越大越靠上 |
+
+```html
+<!-- 文档流内水平居中 -->
+<miorian-block width="35%" self-x="center">...</miorian-block>
+
+<!-- 悬浮视口居中（显式 fixed + 双方向 center + 确定尺寸） -->
+<miorian-block position="fixed" self-x="center" self-y="center" width="320px" height="200px">...</miorian-block>
+
+<!-- 相对父级绝对定位居中 -->
+<miorian-block position="relative">
+  <miorian-block position="absolute" self-x="center" self-y="center">...</miorian-block>
+</miorian-block>
+```
+
+> `self-y` 在普通块级父级（如 `<body>`）中垂直 auto margin 会塌陷为 0，需 flex/grid 父级。要脱离文档流相对视口 / 定位祖先居中，用 `position="fixed"` / `position="absolute"` + `self-x="center" self-y="center"`，并**显式给 `width` / `height`**（auto 会被 inset 拉伸满屏）。
+
+> `layer` 用于定位元素（`position` 非 static）之间的堆叠层级：同一父容器下的多个定位图层，`layer` 数字越大越靠上。普通（static）元素设 `layer` 不会生效——`z-index` 仅作用于定位元素。
 
 ### 动效 / 自动刷新
 
@@ -152,6 +200,7 @@
 | `mode` | `input` | `input` / `display` / `password` |
 | `type` | `text` | HTML input type |
 | `value` / `placeholder` | — | 初始值 / 占位提示 |
+| `placeholder-*` | — | 占位符样式：`placeholder-color` / `placeholder-font-family` / `placeholder-font-size` / `placeholder-font-weight` / `placeholder-font-style` / `placeholder-letter-spacing` / `placeholder-text-align` |
 | `label` / `icon` / `size` | — / — / `md` | 标签 / 图标 / 尺寸 |
 | `disabled` / `invalid` / `message` | — | 状态 |
 | `text-align` | `left` | 展示框文字对齐 |
@@ -178,7 +227,7 @@
 |------|--------|------|
 | `src` / `alt` | — / `avatar` | 图片 / 替代文本；**`src` 为空时自动显示默认游客剪影**（人形 SVG，无网络请求） |
 | `size` | `md` | `sm`(38) / `md`(62) / `lg`(94) / `xl`(136) / 自定义 `28px` |
-| `border` | `none` | `ring`（实心圆环）/ `wave`（虚线波浪，自动旋转） |
+| `border` | `none` | `ring`（实心圆环）/ `wave`（虚线波浪，自动旋转）；环色可用 `bordercolor` 自定义（默认 accent） |
 | `rotate` | — | 悬停旋转 360° |
 
 ---
@@ -190,7 +239,7 @@
 | `src` / `alt` | — | 图标 / 替代文本 |
 | `href` / `target` | `#` / `_blank` | 跳转链接 / 打开方式 |
 | `size` | `md` | 同 Avatar |
-| `border` | `none` | `ring` / `wave` |
+| `border` | `none` | `ring` / `wave`；环色可用 `bordercolor` 自定义（默认 accent） |
 
 **常用图标 CDN**（Simple Icons）：`https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/<name>.svg`
 
@@ -335,4 +384,4 @@
 
 ---
 
-> **MioRian Component** · 2026-08-15 
+> **MioRian Component** · 纯原生 Web Components · 零依赖 · 9 组件 · 2026-08-15

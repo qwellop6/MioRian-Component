@@ -79,13 +79,11 @@ class Block extends HTMLElement {
     const fxSize    = this.getAttribute('fx-size')   || 'md';
     const fxAngle   = parseFloat(this.getAttribute('fx-angle')) || 45;
 
-    /* ── 注入 Block 专属 CSS 变量 ── */
-    const s = this.style;
-    if (bgImage) s.setProperty('--bg-img', `url('${bgImage}')`);
-    s.setProperty('--bg-sz',  bgSize);
-    s.setProperty('--bg-pos', bgPosition);
-    s.setProperty('--bg-rp',  bgRepeat ? 'repeat' : 'no-repeat');
-    if (glass) s.setProperty('--glass-blur', glassBlur);
+    /* ── 收集 Block 专属 CSS 变量（写在 shadow 内部 .frame 上，避免变量穿透继承给子级）── */
+    let frameStyle = '';
+    if (bgImage) frameStyle += `background-image:url('${bgImage}');`;
+    frameStyle += `background-size:${bgSize};background-position:${bgPosition};background-repeat:${bgRepeat ? 'repeat' : 'no-repeat'};`;
+    if (glass) frameStyle += `--glass-blur:${glassBlur};`;
 
     /* 特效背景生成（单 tile + 无缝平铺；元素加宽避免水平漂移露边） */
     if (bgEffect === 'sakura' || bgEffect === 'snow') {
@@ -96,9 +94,7 @@ class Block extends HTMLElement {
       /* translateX / tile 宽都换算成「元素自身」的百分比 */
       const dxElem   = d >= 1 ? -(d / W * 100) : 0;
       const tileElem = d >= 1 ? (d / W * 100) : 100;
-      s.setProperty('--fx-dx', dxElem.toFixed(2) + '%');
-      s.setProperty('--fx-tile-w', tileElem.toFixed(2) + '%');
-      s.setProperty('--fx-w', `calc(100% + ${d}%)`);
+      frameStyle += `--fx-dx:${dxElem.toFixed(2)}%;--fx-tile-w:${tileElem.toFixed(2)}%;--fx-w:calc(100% + ${d}%);`;
 
       const base     = { sparse: 14, normal: 28, dense: 48 };
       const baseSnow = { sparse: 12, normal: 24, dense: 42 };
@@ -106,8 +102,8 @@ class Block extends HTMLElement {
       const tileWFrame = d >= 1 ? d : 100;
       const count = Math.max(6, Math.round(bn * tileWFrame / 100));
 
-      if (bgEffect === 'sakura') s.setProperty('--fx-sakura-bg', buildSakuraBg(count, fxSize));
-      if (bgEffect === 'snow')   s.setProperty('--fx-snow-bg',   buildSnowBg(count, fxSize));
+      if (bgEffect === 'sakura') frameStyle += `--fx-sakura-bg:${buildSakuraBg(count, fxSize)};`;
+      if (bgEffect === 'snow')   frameStyle += `--fx-snow-bg:${buildSnowBg(count, fxSize)};`;
     }
 
     /* ── 构建 DOM ── */
@@ -119,7 +115,7 @@ class Block extends HTMLElement {
       <div class="frame
         eff-${bgEffect}
         ${bp.classList} ${glassClass}
-      ">
+      " style="${frameStyle}">
         ${glassLayer}
         ${slotOpen}
       </div>`;
@@ -134,10 +130,7 @@ const BLOCK_CSS = `
   width:100%;height:100%;
   border-radius:var(--borad,12px);
   background:var(--ov-bg,var(--t-bg));
-  background-image:var(--bg-img,none);
-  background-size:var(--bg-sz,cover);
-  background-position:var(--bg-pos,center);
-  background-repeat:var(--bg-rp,no-repeat);
+  /* 背景图改用内联 style 直接写（background-* 是普通属性，不继承，避免 CSS 变量穿透 shadow 泄漏给子级） */
   border:2px solid var(--ov-bd,var(--t-bd));
   color:var(--t-fg);
   display:flex;

@@ -63,7 +63,7 @@ const AVATAR_CSS = `
 
 .avatar-wrap{
   position:relative;box-sizing:border-box;
-  border-radius:50%;overflow:hidden;
+  border-radius:50%;
   flex-shrink:0;
   width:var(--iv-sz,62px);height:var(--iv-sz,62px);
   display:flex;align-items:center;justify-content:center;
@@ -89,7 +89,7 @@ const AVATAR_CSS = `
 
 /* ─ Border: 圆环（实心）─ */
 .bd-ring{
-  border:4px solid var(--accent);
+  border:4px solid var(--ov-bd,var(--accent));
 }
 
 /* ─ Border: 波浪环（虚线圆环，自动旋转）─ */
@@ -97,7 +97,7 @@ const AVATAR_CSS = `
   content:'';position:absolute;
   inset:-5px;
   border-radius:50%;
-  border:4px dashed var(--accent);
+  border:4px dashed var(--ov-bd,var(--accent));
   animation:waveSpin 6s linear infinite;
   pointer-events:none;
 }

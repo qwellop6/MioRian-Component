@@ -60,7 +60,7 @@ const SOCIAL_CSS = `
 
 .social-wrap{
   position:relative;box-sizing:border-box;
-  border-radius:50%;overflow:hidden;
+  border-radius:50%;
   flex-shrink:0;
   width:var(--iv-sz,62px);height:var(--iv-sz,62px);
   display:flex;align-items:center;justify-content:center;

@@ -66,6 +66,23 @@ class Input extends HTMLElement {
     const api       = this.getAttribute('api')       || '';
     const textAlign = this.getAttribute('text-align')|| 'left';
 
+    /* ── placeholder 字体全家桶 + 颜色 + 对齐 ── */
+    const phColor  = this.getAttribute('placeholder-color')           || '';
+    const phFont   = this.getAttribute('placeholder-font-family')    || '';
+    const phSize   = this.getAttribute('placeholder-font-size')      || '';
+    const phWeight = this.getAttribute('placeholder-font-weight')    || '';
+    const phStyle  = this.getAttribute('placeholder-font-style')     || '';
+    const phLsp    = this.getAttribute('placeholder-letter-spacing') || '';
+    const phAlign  = this.getAttribute('placeholder-text-align')     || '';
+    const st = this.style;
+    if (phColor)  st.setProperty('--ph-color',  phColor);
+    if (phFont)   st.setProperty('--ph-font',   phFont);
+    if (phSize)   st.setProperty('--ph-size',   phSize);
+    if (phWeight) st.setProperty('--ph-weight', phWeight);
+    if (phStyle)  st.setProperty('--ph-style',  phStyle);
+    if (phLsp)    st.setProperty('--ph-lsp',    phLsp);
+    if (phAlign)  st.setProperty('--ph-align',  phAlign);
+
     /* ── 子元素 ── */
     const labelHTML   = label   ? `<label class="lbl">${label}</label>` : '';
     const msgHTML     = message ? `<span class="msg ${invalid ? 'is-invalid' : ''}">${message}</span>` : '';
@@ -273,7 +290,15 @@ const INPUT_CSS = {
   transition:opacity .25s ease;
 }
 .ico+.ipt{padding-left:38px}
-.ipt::placeholder{color:var(--t-sub)}
+.ipt::placeholder{
+  color:var(--ph-color,var(--t-sub));
+  font-family:var(--ph-font,inherit);
+  font-size:var(--ph-size,inherit);
+  font-weight:var(--ph-weight,inherit);
+  font-style:var(--ph-style,inherit);
+  letter-spacing:var(--ph-lsp,inherit);
+  text-align:var(--ph-align,inherit);
+}
 
 /* ─ 尺寸 ─ */
 .sz-sm .ipt{padding:6px 12px;font-size:.82rem}
