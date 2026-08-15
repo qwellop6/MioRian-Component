@@ -39,6 +39,19 @@ class BtnLink extends HTMLElement {
     const ulColor   = this.getAttribute('underline-color') || 'var(--accent)';
     const ulDir     = this.getAttribute('underline-dir') || 'left'; // left / right / center
 
+    /* ── 图标（iconify / 图片 URL / emoji）── */
+    const icon      = this.getAttribute('icon')      || '';
+    const iconSide  = this.getAttribute('icon-side') || 'left';  // left / right
+    const isIconify = /^[a-z0-9-]+:[a-z0-9-]+$/i.test(icon);
+    const isIconImg = /^(https?:\/\/|data:image|\.{1,2}\/|\/)/i.test(icon) || /\.(svg|png|jpe?g|gif|webp)$/i.test(icon);
+    const iconHTML  = icon
+      ? (isIconify
+          ? `<iconify-icon class="bl-icon" icon="${icon}"></iconify-icon>`
+          : isIconImg
+            ? `<img class="bl-icon" src="${icon}" alt="">`
+            : `<span class="bl-icon">${icon}</span>`)
+      : '';
+
     /* ── 注入 CSS 变量 ── */
     if (hovColor) this.style.setProperty('--bl-hov', hovColor);
     if (hasULine) this.style.setProperty('--bl-ul', ulColor);
@@ -50,8 +63,9 @@ class BtnLink extends HTMLElement {
     const ulClass = (!isButton && hasULine) ? `uline uline-${ulDir}` : '';
 
     this._s.innerHTML = `<style>${BaseProps.CSS}${BTLINK_CSS(isButton, borderW, hovColor, hasULine, ulDir)}</style>
-      <${tag} class="bl ${modeClass} ${hasLift ? 'hover-lift' : ''} ${ulClass} ${cls}" ${hrefAttr}>
-        <slot></slot>
+      <${tag} class="bl ${modeClass} ${hasLift ? 'hover-lift' : ''} ${ulClass} ${cls} ${icon ? `has-icon icon-${iconSide}` : ''}" ${hrefAttr}>
+        ${iconHTML}
+        <span class="bl-text"><slot></slot></span>
       </${tag}>`;
   }
 }
@@ -63,6 +77,7 @@ function BTLINK_CSS(isButton, borderW, hovColor, hasULine, ulDir) {
 
 .bl{
   display:inline-flex;align-items:center;justify-content:center;
+  gap:6px;
   text-decoration:none;cursor:pointer;
   box-sizing:border-box;
   border-radius:var(--borad,10px);
@@ -78,6 +93,17 @@ function BTLINK_CSS(isButton, borderW, hovColor, hasULine, ulDir) {
   -webkit-tap-highlight-color:transparent;
   user-select:none;
 }
+
+/* ─ 图标 ─ */
+.bl-icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+img.bl-icon{width:1.1em;height:1.1em;object-fit:contain;display:block}
+iconify-icon.bl-icon{width:1.1em;height:1.1em}
+span.bl-icon{font-size:1.1em;line-height:1}
+.bl-text{display:inline-flex;align-items:center}
+.bl.icon-right{flex-direction:row-reverse}
 
 /* ─ button 模式 ─ */
 ${isButton ? `

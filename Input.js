@@ -86,7 +86,12 @@ class Input extends HTMLElement {
     /* ── 子元素 ── */
     const labelHTML   = label   ? `<label class="lbl">${label}</label>` : '';
     const msgHTML     = message ? `<span class="msg ${invalid ? 'is-invalid' : ''}">${message}</span>` : '';
-    const iconHTML    = icon    ? `<span class="ico">${icon}</span>` : '';
+    const isIconify   = /^[a-z0-9-]+:[a-z0-9-]+$/i.test(icon);
+    const iconHTML    = icon
+      ? (isIconify
+          ? `<iconify-icon class="ico" icon="${icon}"></iconify-icon>`
+          : `<span class="ico">${icon}</span>`)
+      : '';
 
     let bodyHTML = '';
     if (this._mode === 'display') {
@@ -279,6 +284,10 @@ const INPUT_CSS = {
 .ico{
   position:absolute;left:12px;font-size:1rem;
   color:var(--t-sub);pointer-events:none;line-height:1;z-index:1;
+}
+iconify-icon.ico{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:1em;height:1em;
 }
 
 /* ─ 输入框 ─ */

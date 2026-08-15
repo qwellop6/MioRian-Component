@@ -14,7 +14,7 @@
 | `<miorian-social>` | 社交链接图标（点击跳转） |
 | `<miorian-heading>` | 自定义标题（全套字体 + 下划线/删除线） |
 | `<miorian-article-card>` | 文章卡片（封面 + 标题 + 简介 + 跳转） |
-| `<miorian-btnlink>` | 钮链（按钮 / 链接双模式） |
+| `<miorian-btnlink>` | 钮链（按钮 / 链接双模式 + 图标） |
 | `<miorian-post>` | 文章 / Markdown 编辑器（读/编辑/新建三模式） |
 | `<miorian-dropdown>` | 多级下拉盒子（悬停触发 / 无限嵌套 / 抽屉推移） |
 
@@ -36,6 +36,9 @@
 <script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/BtnLink.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Post.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Dropdown.js"></script>
+
+<!-- 使用 iconify 图标（icon="fa:home" 等）时才需要引入 -->
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 ```
 
 > `@main` 可换成 `@v1.0.0`（tag）或 `@提交哈希` 锁定版本。jsDelivr 有强缓存，发布新版本建议换版本号，或在 URL 后加 `?v=n` 强制刷新。
@@ -200,8 +203,9 @@
 | `mode` | `input` | `input` / `display` / `password` |
 | `type` | `text` | HTML input type |
 | `value` / `placeholder` | — | 初始值 / 占位提示 |
+| `label` / `size` | — / `md` | 标签 / 尺寸 |
+| `icon` | — | 图标：iconify `集合:图标名`（如 `fa:home`，需引入 iconify-icon）或 emoji |
 | `placeholder-*` | — | 占位符样式：`placeholder-color` / `placeholder-font-family` / `placeholder-font-size` / `placeholder-font-weight` / `placeholder-font-style` / `placeholder-letter-spacing` / `placeholder-text-align` |
-| `label` / `icon` / `size` | — / — / `md` | 标签 / 图标 / 尺寸 |
 | `disabled` / `invalid` / `message` | — | 状态 |
 | `text-align` | `left` | 展示框文字对齐 |
 | `api` | — | API URL，自动 fetch 展示 |
@@ -306,7 +310,7 @@
 | 按钮 | `button`（默认） | 实心 accent + 边框 | `hover="lift"` 上浮放大 |
 | 链接 | `link` | 无边框透明 | `hover-color` 启用变色 |
 
-**共用**：`href` / `target` + 字体全家桶 + `text-align`。
+**共用**：`href` / `target` + 字体全家桶 + `text-align` + `icon` / `icon-side`（图标，`left` / `right`，支持 iconify `集合:图标名` / 图片 URL / emoji）。
 
 **按钮专属**：`hover="lift"`、`border-width`（默认 `2px`）。
 
@@ -314,7 +318,7 @@
 
 ```html
 <miorian-btnlink mode="button" href="#" hover="lift" border-width="3px">按钮</miorian-btnlink>
-<miorian-btnlink mode="link" href="#" underline underline-dir="center" underline-color="#e24b4a">链接</miorian-btnlink>
+<miorian-btnlink mode="link" href="#" icon="fa:home" icon-side="left">首页</miorian-btnlink>
 ```
 
 ---
