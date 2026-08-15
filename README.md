@@ -1,6 +1,6 @@
 # MioRian Component
 
-基于 **Web Components（Shadow DOM）** 的纯原生 UI 组件库。零依赖、无构建工具、无需任何第三方框架，直接以自定义 HTML 标签使用，兼容所有现代浏览器。
+一款基于 **Web Components（Shadow DOM）** 的自定义 **Web UI** 组件库 ；高效、简洁、无依赖。
 
 ---
 
@@ -388,4 +388,4 @@
 
 ---
 
-> **MioRian Component** · 纯原生 Web Components · 零依赖 · 9 组件 · 2026-08-15
+> **MioRian Component** · 2026-08-15
