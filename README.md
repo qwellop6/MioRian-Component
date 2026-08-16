@@ -26,16 +26,16 @@
 
 ```html
 <!-- BaseProps 必须最先加载 -->
-<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/BaseProps.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Block.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Input.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Avatar.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Social.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Heading.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/ArticleCard.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/BtnLink.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Post.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Dropdown.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/BaseProps.js"?v=n></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Block.js"?v=n></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Input.js"?v=n></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Avatar.js"?v=n></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Social.js"?v=n></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Post.js"?v=n></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Heading.js"?v=n></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/ArticleCard.js"?v=n></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/BtnLink.js"?v=n></script>
+<script src="https://cdn.jsdelivr.net/gh/qwellop6/MioRian-Component@main/Dropdown.js"?v=n></script>
 
 <!-- 使用 iconify 图标（icon="fa:home" 等）时才需要引入 -->
 <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
@@ -47,16 +47,16 @@
 
 ```html
 <!-- BaseProps 必须最先加载 -->
-<script src="BaseProps.js"></script>
-<script src="Block.js"></script>
-<script src="Input.js"></script>
-<script src="Avatar.js"></script>
-<script src="Social.js"></script>
-<script src="Heading.js"></script>
-<script src="ArticleCard.js"></script>
-<script src="BtnLink.js"></script>
-<script src="Post.js"></script>
-<script src="Dropdown.js"></script>
+<script src="[文件所在路径]/BaseProps.js"></script>
+<script src="[文件所在路径]/Block.js"></script>
+<script src="[文件所在路径]/Input.js"></script>
+<script src="[文件所在路径]/Avatar.js"></script>
+<script src="[文件所在路径]/Social.js"></script>
+<script src="[文件所在路径]/Heading.js"></script>
+<script src="[文件所在路径]/ArticleCard.js"></script>
+<script src="[文件所在路径]/BtnLink.js"></script>
+<script src="[文件所在路径]/Post.js"></script>
+<script src="[文件所在路径]/Dropdown.js"></script>
 ```
 
 ```html
